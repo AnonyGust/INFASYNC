@@ -1,0 +1,47 @@
+.section .square {
+    position: absolute;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    animation: animate 10s linear infinite;
+    animation-delay: calc(-1s * var(--i));
+}
+@keyframes animate {
+    0%, 100% {transform: translate(-30px);}
+    50% {transform: translate(30px);}
+}
+.section .square:nth-child(1) {
+    right: 350px;
+    width: 100px; height: 100px;
+}
+.section .square:nth-child(2) {
+    right: 130px;
+    width: 100px; height: 100px;
+}
+.section .square:nth-child(3) {
+    bottom: 50px; right: 350px;
+    width: 80px; height: 80px;
+
+}
+.section .square:nth-child(4) {
+    left: 350px;
+    width: 80px; height: 80px;
+}
+.section .square:nth-child(5) {
+    left: 140px; bottom: 70px;
+    width: 90px; height: 80px;
+}
+.section .square:nth-child(6) {
+    left: 130px;
+   width: 100px; height: 100px;
+}
+.section .square:nth-child(7) {
+   bottom: 50px; right: 130px;
+   width: 80px; height: 80px;
+
+}
+.section .square:nth-child(8) {
+   bottom: 50px; left: 350px;
+   width: 80px; height: 80px;
+}

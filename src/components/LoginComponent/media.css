@@ -1,0 +1,23 @@
+@media (max-width: 512px){
+    .navigation{
+        flex-wrap: wrap;
+    }
+    .btns{
+        width: 100%;
+        justify-content: center;
+        flex-wrap: nowrap;
+        margin: 0;
+    }
+    .navigation .btnRegistro-popup,
+    .navigation .btnLogin-popup{
+        margin: 0 0 0 0;
+    }
+    header{
+        padding: 10px 0;
+    }
+    .logo{
+        width: 100%;
+    }
+}
+
+
