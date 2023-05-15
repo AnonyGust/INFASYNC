@@ -7,7 +7,8 @@ import { IoMdAlert } from "react-icons/io";
 import { IoMdCalendar } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { IoMdSend } from "react-icons/io";
-import infatecFetch from '../../axios/config';
+import { createEvent } from './submitEvents';
+import { createWarning } from './submitWarnings';
 
 
 
@@ -16,6 +17,13 @@ const ThirdComponent = () => {
   const [showEventosForm, setShowEventosForm] = useState(false);
   const [showAvisosForm, setShowAvisosForm] = useState(false);
   const [showCronogramasForm, setShowCronogramasForm] = useState(false);
+
+  const [title, setTitle]= useState("");
+  const [description, setDescription] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+
+  const [message, setMessage] = useState("")
+  const [imageName, setimageName] = useState("")
 
   const toggleEventosForm = () => {
     setShowEventosForm(!showEventosForm);
@@ -40,37 +48,20 @@ const ThirdComponent = () => {
   const closeFormCronogramas = () => {
     setShowCronogramasForm(false)
   }
-  const [title, setTitle]= useState();
-  const [description, setDescription] = useState();
-  const [imageFile, setImageFile] = useState(null);
+
 
   const handlerImagem = (e) => {
     setImageFile(e.target.files[0]);
   }
 
-  const createPost = async (e) => {
+  const sendEvents = (e) => {
     e.preventDefault();
-  
-    const dados = new FormData();
-  
-    dados.append('title', title);
-    dados.append('description', description);
-    dados.append('imageFile', imageFile);
-    dados.append('image_Uri', '');
-  
-    try {
-      const token = sessionStorage.getItem('bearer');
-      await infatecFetch.post('/api/Events/InsertNewEvent', dados, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      console.log(dados)
-      
-    } catch (error) {
-      console.error(error);
-    }
+    createEvent(title, description, imageFile);
+  };
+
+  const sendWarnings = (e) => {
+    e.preventDefault();
+    createWarning(imageName, message, imageFile)
   };
   
   
@@ -96,57 +87,57 @@ const ThirdComponent = () => {
         </div>
         {showEventosForm &&
 
-<form id="eventos-form" onSubmit={(e) => createPost(e)}>
-<span className="icon-close" onClick={closeFormEventos}>
-  <IoMdClose />
-</span>
-<h2>Enviar Evento</h2>
-<label htmlFor="titulo">Título do Evento:</label>
-<input
-  type="text"
-  id="titulo"
-  name="title"
-  value={title}
-  onChange={(e) => setTitle(e.target.value)}
-/>
-<label htmlFor="descricaoEventos">Descrição do Evento:</label>
-<textarea
-  id="descricaoEventos"
-  name="description"
-  value={description}
-  onChange={(e) => setDescription(e.target.value)}
-></textarea>
-<label htmlFor="imagemEventos2">Anexar Imagem:</label>
-<input
-  type="file"
-  id="imagemEventos2"
-  name="imagemEventos2"
-  onChange={handlerImagem}
-/>
-<button id="btnEventos" type="submit">
-  <IoMdSend /> Enviar
-</button>
-</form>
+        <form id="eventos-form" onSubmit={sendEvents}>
+        <span className="icon-close" onClick={closeFormEventos}>
+          <IoMdClose />
+        </span>
+        <h2>Enviar Evento</h2>
+        <label htmlFor="titulo">Título do Evento:</label>
+        <input
+          type="text"
+          id="titulo"
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <label htmlFor="descricaoEventos">Descrição do Evento:</label>
+        <textarea
+          id="descricaoEventos"
+          name="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
+        <label htmlFor="imagemEventos2">Anexar Imagem:</label>
+        <input
+          type="file"
+          id="imagemEventos2"
+          name="imagemEventos2"
+          onChange={handlerImagem}
+        />
+        <button id="btnEventos" type="submit">
+          <IoMdSend /> Enviar
+        </button>
+        </form>
         }
 
         {showAvisosForm &&
-          <form id="avisos-form">
+          <form id="avisos-form" onSubmit={sendWarnings}>
             <span className="icon-close" onClick={closeFormAvisos}>
               <IoMdClose />
             </span>
             <h2>Enviar Aviso</h2>
-            <label htmlFor="aviso">Descrição do Aviso:</label>
-            <textarea id="aviso" name="aviso"></textarea>
+            <label htmlFor="titleWarning">Título do Evento:</label>
+              <input
+              type="text"
+              id="titleWarning"
+              name="titleWarning"
+              value={imageName}
+              onChange={(e) => setimageName(e.target.value)}
+                />
+            <label htmlFor="aviso" >Descrição do Aviso:</label>
+            <textarea id="aviso" value={message} onChange={(e) => setMessage(e.target.value)}name="aviso"></textarea>
             <label htmlFor="imagemEvento">Anexar Imagem:</label>
-            <input type="file" id="imagem" name="imagem" />
-            <button id="btnAvisos" type="submit">
-              <IoMdSend /> Enviar
-            </button>
-            <hr />
-            <label htmlFor="aviso2">Descrição do segundo Aviso:</label>
-            <textarea id="aviso2" name="aviso2"></textarea>
-            <label htmlFor="imagemAviso2">Anexar Imagem:</label>
-            <input type="file" id="imagemAviso2" name="imagemAviso2" />
+            <input type="file" id="imagem" name="imagem" onChange={handlerImagem} />
             <button id="btnAvisos" type="submit">
               <IoMdSend /> Enviar
             </button>

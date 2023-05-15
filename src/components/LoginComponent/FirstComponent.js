@@ -88,8 +88,7 @@ const FirstComponent = () => {
       setRa(inputValue);
     }
   };
-
-
+  
   //Verifica se tem 13 números digitados e se não tiver retorna erro 
   const handleRaBlur = (event) => {
     const inputValue = event.target.value;
@@ -99,8 +98,6 @@ const FirstComponent = () => {
       event.target.focus();
     }
   };
-
-
 
   //evento para checar email e verificar se tem dominio @fatec.sp.gov.br
   const handleEmailBlur = (e) => {
@@ -146,6 +143,7 @@ const FirstComponent = () => {
 
  //utiliza o navigate para navegar entre as páginas caso haja token
  const navigate = useNavigate();
+
  //limpa o sessionStorage caso volta para página de login
  sessionStorage.removeItem('bearer');
  
