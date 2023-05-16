@@ -13,8 +13,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'roboto-regular';
-    color: rgb(253, 250, 250);
-    font-weight: 500;
 }
 
 body{
@@ -36,6 +34,7 @@ body{
     text-transform: uppercase;
     color: black;
     font-family: 'roboto-medium';
+    font-weight: 500;
 }
 
 .imgone {
@@ -208,6 +207,7 @@ body{
     color: black;
     font-family: 'roboto-medium';
     height: 5vh;
+    font-weight: 500;
 }
 
 .avisos {
@@ -280,22 +280,20 @@ body{
 
 }
 
-.imgevento,
-.imgeventoTwo {
+.imgevento{
     display: flex;
     gap: 20px;
     margin-top: 10px;
     margin-bottom: 10px; /* Adiciona margem inferior */
-    height: 14.5vh;
+    height: 29vh;
 }
 
-.textEvent,
-.textEventTwo {
+.textEvent {
     letter-spacing: 2px;
     width: 80%;
     font-weight: 500;
     color: black;
-    height: 15vh;
+    height: 29vh;
     margin-bottom: 5px;
     font-size: 95%;
 }
@@ -308,9 +306,8 @@ body{
     border-radius: 5px;
 }
 
-.imghtml2,
-.imghtml3{
-    height: 14.5vh;
+.imghtml2{
+    height: 29vh;
     border: 2px solid black;
     border-radius: 10px;
 }

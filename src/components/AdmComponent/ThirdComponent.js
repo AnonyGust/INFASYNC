@@ -1,16 +1,23 @@
 import { useState } from 'react';
+// css
 import "./adm.css";
+// imagens
 import logo from './assets/logo.png';
 import infatec from './assets/infatec.png';
+// icones
 import { IoIosSchool } from "react-icons/io";
 import { IoMdAlert } from "react-icons/io";
 import { IoMdCalendar } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { IoMdSend } from "react-icons/io";
-import { createEvent } from './submitEvents';
-import { createWarning } from './submitWarnings';
-
-
+// funções para enviar eventos, avisos e cronogramas
+import { createEvent } from './submitEventsApi';
+import { createWarning } from './submitWarningsApi';
+import { createCourse } from './submitExcelApi';
+// função para deletar cursos
+import { deleteCourses } from './deleteAllCursesApi';
+//toastcontainer para sucesso e erro
+import { ToastContainer } from 'react-toastify';
 
 
 const ThirdComponent = () => {
@@ -21,18 +28,20 @@ const ThirdComponent = () => {
   const [title, setTitle]= useState("");
   const [description, setDescription] = useState("");
   const [imageFile, setImageFile] = useState(null);
+  const [excel, setExcel] = useState(null);
 
   const [message, setMessage] = useState("")
   const [imageName, setimageName] = useState("")
 
+  //abre e fecha eventos modal
   const toggleEventosForm = () => {
     setShowEventosForm(!showEventosForm);
   }
-
+  //abre e fecha avisos
   const toggleAvisosForm = () => {
     setShowAvisosForm(!showAvisosForm);
   }
-
+  //abre e fecha cronogramas
   const toggleCronogramasForm = () => {
     setShowCronogramasForm(!showCronogramasForm);
   }
@@ -49,16 +58,30 @@ const ThirdComponent = () => {
     setShowCronogramasForm(false)
   }
 
-
+  //guarda a imagem selecionada
   const handlerImagem = (e) => {
     setImageFile(e.target.files[0]);
   }
-
+  //guarda o arquivo excel
+  const handlerExcel = (e) => {
+    setExcel(e.target.files[0]);
+  }
+  //Envia todos os cursos em Excel
+  const sendExcel = (e) => {
+    e.preventDefault();
+    createCourse(excel);
+  };
+  //apaga todos os cursos 
+  const deleteAllCurses = (e) => {
+    e.preventDefault();
+    deleteCourses();
+  };
+  //Envia eventos
   const sendEvents = (e) => {
     e.preventDefault();
     createEvent(title, description, imageFile);
   };
-
+  //Envia Avisos
   const sendWarnings = (e) => {
     e.preventDefault();
     createWarning(imageName, message, imageFile)
@@ -68,7 +91,7 @@ const ThirdComponent = () => {
 
   return (
     <>
-      <header>
+      <header className='header-adm'>
         <nav className="navigation">
           <div className="logo">
             <img className="imgone" src={logo} alt="logo" />
@@ -126,7 +149,7 @@ const ThirdComponent = () => {
               <IoMdClose />
             </span>
             <h2>Enviar Aviso</h2>
-            <label htmlFor="titleWarning">Título do Evento:</label>
+            <label htmlFor="titleWarning">Título do Aviso:</label>
               <input
               type="text"
               id="titleWarning"
@@ -144,11 +167,28 @@ const ThirdComponent = () => {
           </form>
         }
         {showCronogramasForm &&
-          <form id="cronogramas-form">
+          <form id="cronogramas-form" onSubmit={sendExcel}>
           <span className="icon-close" onClick={closeFormCronogramas}>
             <IoMdClose />
           </span>
           <h2>Cronogramas</h2>
+          <div className="excelAll">
+          <h3>Para carregar todos os cursos insira um arquivo Excel.</h3>
+            <div className="sendCurses">
+            <input type="file" id="excel" name="excel" onChange={handlerExcel} />
+            <div className="sendButtons">
+            <button id="btnExcel">
+            <IoMdSend /> Enviar Excel
+          </button>
+          <button id="btnDeleteCurses" onClick={deleteAllCurses}>
+            <IoMdSend /> Deletar todos os cursos
+          </button>
+          </div>
+          </div>
+          
+          
+          </div>
+          <hr />
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="curso1">Nome do curso:</label>
@@ -193,6 +233,7 @@ const ThirdComponent = () => {
         
         }
       </main>
+      <ToastContainer position="bottom-left" />
     </>
   );
 };

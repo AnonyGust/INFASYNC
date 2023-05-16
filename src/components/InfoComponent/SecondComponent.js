@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"
 import logo from './assets/logo.png';
-import foto_professor from './assets/foto_professor.png';
 import fundo from './assets/fundopreto.jpg';
-import './style2.css';
+import './info.css';
 const url = "http://localhost:3000/products"
 const url2 = "http://localhost:3000/mensagens"
 
@@ -35,16 +34,6 @@ const SecondComponent = () => {
 
   const cardsFront = products.slice(0, 6);
   const cardsBack = products.slice(6, 12);
-
-  const text = [
-    {
-      avisoAnimation: "as provas começarão em dezembro",
-      eventoAnimation: "maratona de programação",
-      textEvent: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio suscipit quia porro beatae, quidem quasi fugiat enim ipsum consequatur repellat eius nobis, dicta totam vero optio inventore consequuntur, sequi dolor!",
-      textEventTwo: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio suscipit quia porro beatae, quidem quasi fugiat enim ipsum consequatur repellat eius nobis, dicta totam vero optio inventore consequuntur, sequi dolor!",
-    }
-
-  ]
 
 
 
@@ -140,11 +129,6 @@ const SecondComponent = () => {
       <div className="imgevento">
         <img className="imghtml2" src={fundo} alt="" />
         <h4 className="textEvent"></h4>
-      </div>
-
-      <div className="imgeventoTwo">
-        <img className="imghtml3" src={fundo} alt="" />
-        <h4 className="textEventTwo"></h4>
       </div>
     </div>
   </div>

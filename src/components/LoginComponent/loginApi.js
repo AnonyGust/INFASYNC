@@ -20,9 +20,6 @@ export async function loginUser(ra, password, navigate) {
     console.log(response.data);
     
     navigate('/adm')
-    
-
-
 
   } catch (error) {
     console.error(error);

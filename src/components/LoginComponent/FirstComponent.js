@@ -3,13 +3,14 @@ import "./animationSquare.css"
 import "./media.css"
 import logo from './assets/logo.png';
 import infatec from './assets/infatec.png'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createUser } from "./cadastroApi";
 import { loginUser } from "./loginApi";
 import { useNavigate } from "react-router-dom";
-
+import { getCurses } from "./selectCursesApi";
 //BIBLOTECA DO SELECTBOX
 import Select from 'react-select';
+
 
 //icons
 import { IoMdPerson } from "react-icons/io";
@@ -29,8 +30,29 @@ const FirstComponent = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
-  const [cursoSelecionado, setCursoSelecionado] = useState('');
-  const [selectedOption, setSelectedOption] = useState(null);
+  
+    const [selectedOption, setSelectedOption] = useState([]);
+    const [courseOptions, setCourseOptions] = useState([]);
+
+    useEffect(() => {
+      const fetchCourses = async () => {
+        try {
+          const courses = await getCurses();
+          setCourseOptions(courses);
+        } catch (error) {
+          console.error(error);
+          setCourseOptions([]);
+        }
+      };
+  
+      fetchCourses();
+    }, []);
+
+      //GUARDA O CURSO SELECIONADO  
+  const handleChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+  };
+   
 
   //limpa os campos de LOGIN quando muda pra outro formulário
   const toggleLogin = () => {
@@ -128,24 +150,8 @@ const FirstComponent = () => {
   };
 
 
-  //OPÇÕES EM SELECTBOX
-  const options = [
-    { value: '1', label: 'Chocolate' },
-    { value: '1', label: 'Strawberry' },
-    { value: '1', label: 'Vanilla' }
-  ];
-
- 
-  //GUARDA O CURSO SELECIONADO  
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
-
  //utiliza o navigate para navegar entre as páginas caso haja token
  const navigate = useNavigate();
-
- //limpa o sessionStorage caso volta para página de login
- sessionStorage.removeItem('bearer');
  
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
@@ -154,6 +160,8 @@ const FirstComponent = () => {
    //METODO DE LOGIN
    await loginUser(ra, password, navigate);
   }
+
+  
   
   //GERA ERRO QUANDO CLICADO EM REGISTRO SE ALGO NÃO ESTIVER PREENCHIDO (SENHA COINCIDIREM E CURSO)
  const handleSubmitRegister = async (event) => {
@@ -170,7 +178,7 @@ const FirstComponent = () => {
     }
     // Verifica se o curso foi selecionado
     if (selectedOption !== null) {
-      setCursoSelecionado(selectedOption);
+      setSelectedOption(selectedOption);
     } else {
       toast.error("Selecione um curso");
       return;
@@ -181,7 +189,7 @@ const FirstComponent = () => {
   return (
     <>
 
-      <header>
+      <header className="header-login">
 
         <nav className="navigation">
           <div className="logo">
@@ -262,15 +270,15 @@ const FirstComponent = () => {
 
               {/* SELECT BOX */}
               <div className="select-container">
-                <h4>Selecione o curso</h4>
-                <Select
-                  isMulti
-                  value={selectedOption}
-                  onChange={handleChange}
-                  options={options}
-                  placeholder="Selecione o curso"
-                />
-              </div>
+                  <h4>Selecione o curso</h4>
+                  <Select
+                      isMulti
+                      value={selectedOption}
+                      onChange={handleChange}
+                      options={courseOptions}
+                      placeholder="Selecione o curso"
+                    />
+                </div>
 
               {/* NOME REGISTRO */}
               <div className="input-box">

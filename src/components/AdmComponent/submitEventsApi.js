@@ -1,5 +1,5 @@
 import infatecFetch from "../../axios/config";
-
+import { toast } from "react-toastify";
 
 
 export const createEvent = async (title, description, imageFile) => {
@@ -19,9 +19,11 @@ export const createEvent = async (title, description, imageFile) => {
           'Authorization': `Bearer ${token}`,
         },
       });
+      toast.success("Evento enviado com sucesso")
       console.log(formData);
     } catch (error) {
       console.error(error);
+      toast.error("Não foi possível enviar o evento")
     }
   };
   

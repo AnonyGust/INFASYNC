@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import infatecFetch from "../../axios/config";
 
 export const createWarning = async (imageName, message, imageFile) => {
@@ -17,9 +18,11 @@ export const createWarning = async (imageName, message, imageFile) => {
           'Authorization': `Bearer ${token}`,
         },
       });
+      toast.success("Aviso enviado com sucesso")
       console.log(formData);
     } catch (error) {
       console.error(error);
+      toast.error("Não foi possível enviar o aviso")
     }
   };
   
