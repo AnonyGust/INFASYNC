@@ -9,7 +9,7 @@ import { loginUser } from "./loginApi";
 import { useNavigate } from "react-router-dom";
 import { getCurses } from "./selectCursesApi";
 //BIBLOTECA DO SELECTBOX
-import Select from 'react-select';
+import Multiselect from 'multiselect-react-dropdown';
 
 
 //icons
@@ -31,27 +31,22 @@ const FirstComponent = () => {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   
-    const [selectedOption, setSelectedOption] = useState([]);
-    const [courseOptions, setCourseOptions] = useState([]);
+  const [courseOptions, setCourseOptions] = useState([]);
 
-    useEffect(() => {
-      const fetchCourses = async () => {
-        try {
-          const courses = await getCurses();
-          setCourseOptions(courses);
-        } catch (error) {
-          console.error(error);
-          setCourseOptions([]);
-        }
-      };
-  
-      fetchCourses();
-    }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const options = await getCurses();
+        console.log('Course Options:', options);
+        setCourseOptions(options);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-      //GUARDA O CURSO SELECIONADO  
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
+    fetchData();
+  }, []);
+
    
 
   //limpa os campos de LOGIN quando muda pra outro formulário
@@ -177,12 +172,7 @@ const FirstComponent = () => {
       return;
     }
     // Verifica se o curso foi selecionado
-    if (selectedOption !== null) {
-      setSelectedOption(selectedOption);
-    } else {
-      toast.error("Selecione um curso");
-      return;
-    }
+   
   };
 
 
@@ -271,13 +261,14 @@ const FirstComponent = () => {
               {/* SELECT BOX */}
               <div className="select-container">
                   <h4>Selecione o curso</h4>
-                  <Select
-                      isMulti
-                      value={selectedOption}
-                      onChange={handleChange}
-                      options={courseOptions}
-                      placeholder="Selecione o curso"
-                    />
+                  <Multiselect 
+                      isObject={false}
+                      onRemove={(event)=>{  console.log(event)} }
+                      onSelect={ (event)=>{ console.log(event) }}
+                      options={courseOptions}              
+
+                      showCheckbox
+                      />      
                 </div>
 
               {/* NOME REGISTRO */}

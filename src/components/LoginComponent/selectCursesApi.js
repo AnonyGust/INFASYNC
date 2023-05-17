@@ -10,14 +10,11 @@ export const getCurses = async () => {
     });
 
     const courses = response.data.data;
-    const courseOptions = courses.map(course => ({
-      label: course.name,
-      value: course.id
-    }));
+    const courseNames = courses.map(course => course.name);
 
-    console.log('Course Options:', courseOptions);
+    console.log('Course Names:', courseNames);
 
-    return courseOptions;
+    return courseNames;
   } catch (error) {
     console.error(error);
     return [];
