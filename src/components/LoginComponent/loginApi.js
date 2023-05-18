@@ -18,7 +18,7 @@ export async function loginUser(ra, password, navigate) {
       new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve('Login realizado com sucesso');
-        }, 2000); // Tempo de exibição do toast em milissegundos
+        }, 3000); // Tempo de exibição do toast em milissegundos
       }),
       {
         pending: 'Realizando login...',
@@ -29,6 +29,8 @@ export async function loginUser(ra, password, navigate) {
 
     console.log(response.data);
     navigate('/adm');
+
+    
   } catch (error) {
     console.error(error);
     // Trate os erros adequadamente

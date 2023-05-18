@@ -320,7 +320,8 @@ form input[type="file"] {
 #btnEventos,
 #btnAvisos,
 #btnExcel,
-#btnDeleteCurses{
+#btnDeleteCurses,
+#btnInfo{
   display: flex;
   align-items: center;
   margin: 15px auto;

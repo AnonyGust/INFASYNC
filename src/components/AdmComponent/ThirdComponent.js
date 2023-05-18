@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 // css
 import "./adm.css";
@@ -18,6 +19,10 @@ import { createCourse } from './submitExcelApi';
 import { deleteCourses } from './deleteAllCursesApi';
 //toastcontainer para sucesso e erro
 import { ToastContainer } from 'react-toastify';
+//navigate para navegar até a página de info
+
+
+
 
 
 const ThirdComponent = () => {
@@ -32,6 +37,8 @@ const ThirdComponent = () => {
 
   const [message, setMessage] = useState("")
   const [imageName, setimageName] = useState("")
+
+  const navigate = useNavigate();
 
   //abre e fecha eventos modal
   const toggleEventosForm = () => {
@@ -232,6 +239,10 @@ const ThirdComponent = () => {
         </form>
         
         }
+
+            <button id="btnInfo" onClick={() => navigate('/info')}>
+               ir para informações
+            </button>
       </main>
       <ToastContainer position="bottom-left" />
     </>

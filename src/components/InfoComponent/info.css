@@ -92,6 +92,8 @@ body{
     text-align: center;
     border: 2px solid black;
     background-color: black;
+    color: white;
+    font-weight: 500;
     margin: 10px 10px 0 10px;
     border-radius: 10px;
     font-family: 'roboto-medium';
@@ -168,6 +170,7 @@ body{
 /*Tamanho das DIV'S Avisos e Eventos*/
 .tamanho {
     width: 49vw;
+    height: 45.5vh;
     border: 2px solid black;
     margin: 0 0 10px 10px;
     border-radius: 10px;
@@ -218,13 +221,13 @@ body{
     position: relative;
 }
 
-.texto-aviso{
+.titleAviso{
     background-color: black;
     border-radius: 10px;
     height: 6vh;
 }
 
-.texto-aviso p {
+.titleAviso p {
     font-size: 20px;
     text-transform: uppercase;
     padding: 10px;
@@ -247,13 +250,13 @@ body{
   }
 
 
-.texto-evento{
+.titleEvento{
     background-color: black;
     border-radius: 10px;
     height: 6vh;
 }
 
-.texto-evento p {
+.titleEvento p {
     font-size: 20px;
     text-transform: uppercase;
     padding: 10px;
@@ -274,10 +277,28 @@ body{
     
 }
 
+.imgaviso{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+    height: 29vh;
+}
+
 .imgaviso h4 {
     letter-spacing: 1.5px;
     width: 80%;
+    
 
+}
+
+.textAviso{
+    letter-spacing: 2px;
+    width: 80%;
+    font-weight: 500;
+    color: black;
+    height: 29vh;
+    margin-bottom: 5px;
+    font-size: 95%;
 }
 
 .imgevento{
@@ -298,16 +319,16 @@ body{
     font-size: 95%;
 }
 
-.imghtml1,
-.imghtml1_1{
-    height: 30.5vh;
+.imghtml1{
+    height: 29vh;
     border: 2px solid black;
-    width: 22.5vw;
+    width: 29vw;
     border-radius: 5px;
 }
 
 .imghtml2{
     height: 29vh;
+    width: 29vw;
     border: 2px solid black;
     border-radius: 10px;
 }
