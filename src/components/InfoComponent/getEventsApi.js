@@ -13,7 +13,7 @@ export const getEvents = async () => {
 
 
     // Faça o processamento adicional necessário com os eventos obtidos
-
+    console.log(events)
     return events;
   } catch (error) {
     console.error(error);

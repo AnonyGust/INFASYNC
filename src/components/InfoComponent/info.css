@@ -70,9 +70,12 @@ body{
   
   .card .front, .card .back {
     position: absolute;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    width: 100%;
     backface-visibility: hidden;
+    align-items: center;
   }
   
   .card .back {
@@ -88,24 +91,32 @@ body{
 }
 
 .card h2 {
-    font-size: 2.7vh;
+    font-size: 2.5vh;
     text-align: center;
     border: 2px solid black;
     background-color: black;
     color: white;
+    height: 6.5vh;
     font-weight: 500;
     margin: 10px 10px 0 10px;
     border-radius: 10px;
+    width: 90%;
+    text-transform: uppercase;
+    text-align: center;
     font-family: 'roboto-medium';
 }
 
 .andar, .curso{
     font-family: 'roboto-medium';
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    height: 40px;
+    margin-bottom: 10px; 
+
 }
 
 .card h3 {
     text-align: center;
-    margin-top: 10px;
     color: black;
 }
 
@@ -114,6 +125,9 @@ body{
     background-color: black;
     border-radius: 10px;
     color: white;
+    width: 90%;
+    align-self: flex-end;
+   
 }
   
 .cardsix {
@@ -134,14 +148,14 @@ body{
     margin: 0 0 0 20px;
 }
 
-.imgcardone{
+.horarioInicio{
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
    
 }
 
-.imgcardone p{
+.horarioInicio p{
     text-align: center;
     text-transform: uppercase;
     color: black;

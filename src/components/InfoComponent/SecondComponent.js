@@ -100,10 +100,11 @@ useEffect(() => {
                 <div className="cardinfo">
                   <h3 className="andar">{courseData.floor}</h3>
                   <h3 className="curso">{courseData.teacher}</h3>
-                  <div className="imgcardone">
+                  <div className="horarioInicio">
                     <p className="horario" style={{ border: "none" }}>
                       {courseData.start}
                     </p>
+                  
                     <p className="horario" style={{ border: "none" }}>
                       {courseData.end}
                     </p>
@@ -116,14 +117,18 @@ useEffect(() => {
                 <div className="cardinfo">
                   <h3 className="andar">{cardsBack[index].floor}</h3>
                   <h3 className="curso">{cardsBack[index].teacher}</h3>
-                  <div className="imgcardone">
+                  <div className="horarioInicio">
                     <p className="horario" style={{ border: "none" }}>
                       {cardsBack[index].start}
                     </p>
+                    
+                    
                     <p className="horario" style={{ border: "none" }}>
                       {cardsBack[index].end}
                     </p>
-                  </div>
+
+                    </div>
+
                 </div>
                 <p className="nomeprof">{cardsBack[index].coordinator}</p>
               </div>
@@ -138,13 +143,15 @@ useEffect(() => {
       {warningData && warningData.length > 0 && (
       <div>
         <div className="titleAviso">
-        <p>{warningData[warningData.length - 1].message}</p>
+        <p>{warningData[warningData.length - 1].title}</p>
         </div>
      
       <div className="avisoall">
         <div className="imgaviso">
-          <img className="imghtml1" src={warningData[warningData.length - 1].imageName} alt="" />
-          <h3 className="textAviso"></h3>
+          <img className="imghtml1" src={`https://localhost:7245/api/Warnings/ShowImage/${warningData[warningData.length - 1].image_Uri}`}
+            alt=""
+          />
+          <h3 className="textAviso">{warningData[warningData.length - 1].message}</h3>
         </div>
         </div>
 
@@ -156,17 +163,21 @@ useEffect(() => {
   <div className="tamanhotwo">
     <div className="eventos">
       <h1>eventos</h1>
-      {eventData && (
-                <div>
-                  <div className="titleEvento">
-                    <p>{eventData.title}</p>
-                  </div>
-                  <div className="imgevento">
-                    <img className="imghtml2" src={`https://localhost:7245/api/Warnings/ShowImage/${eventData.image_Uri}`} alt="" />
-                    <h4 className="textEvent">{eventData.description}</h4>
-                  </div>
-                </div>
-              )}
+      {eventData && eventData.length > 0 && (
+      <div>
+        <div className="titleEvento">
+          <p>{eventData[eventData.length - 1].title}</p>
+        </div>
+        <div className="imgevento">
+          <img
+            className="imghtml2"
+            src={`https://localhost:7245/api/Warnings/ShowImage/${eventData[eventData.length - 1].image_Uri}`}
+            alt=""
+          />
+          <h4 className="textEvent">{eventData[eventData.length - 1].description}</h4>
+        </div>
+      </div>
+    )}
             </div>
   </div>
 </div>  

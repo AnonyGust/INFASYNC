@@ -4,11 +4,13 @@ import infatecFetch from "../../axios/config";
 export const createWarning = async (imageName, message, imageFile) => {
     const formData = new FormData();
   
-    formData.append('imageName', imageName);
+    formData.append('imageName', '');
     formData.append('message', message);
     formData.append('imgUri', '');
     formData.append('loginId', '1');
+    formData.append('title', imageName);
     formData.append('imageFile', imageFile);
+    
   
     try {
       const token = sessionStorage.getItem('bearer');
