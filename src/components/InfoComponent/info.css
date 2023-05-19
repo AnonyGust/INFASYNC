@@ -113,7 +113,7 @@ body{
     margin: 0 10px 0 10px;
     background-color: black;
     border-radius: 10px;
-    
+    color: white;
 }
   
 .cardsix {
@@ -145,10 +145,6 @@ body{
     text-align: center;
     text-transform: uppercase;
     color: black;
-}
-
-.foto{
-    height: 120px;
 }
 
 .cardinfo{

@@ -92,8 +92,12 @@ const FirstComponent = () => {
 
   //atualizará o valor da constante com o valor inserido pelo usuário
   const handleNameChange = (event) => setName(event.target.value);
-  const handleEmailChange = (event) => setEmail(event.target.value);
-  const handlePasswordChange = (event) => setPassword(event.target.value);
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value)
+  console.log(email)}
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  console.log(password)};
   const handlecPasswordChange = (event) => setCpassword(event.target.value);
 
 
@@ -121,15 +125,12 @@ const FirstComponent = () => {
   const handleEmailBlur = (e) => {
     const input = e.target;
     const emailValue = input.value.trim();
+    console.log(input.value)
+    
     if (!input.validity.valid && e.relatedTarget === null) {
       input.focus();
       toast.error("Digite um e-mail válido");
       return;
-    }
-
-    if (!emailValue.endsWith("@fatec.sp.gov.br")) {
-      input.focus();
-      toast.error("Digite um e-mail válido com o domínio @fatec.sp.gov.br");
     }
   };
 
@@ -154,7 +155,7 @@ const FirstComponent = () => {
     
 
    //METODO DE LOGIN
-   await loginUser(ra, password, navigate);
+   await loginUser(email, password, navigate);
   }
 
   
@@ -217,16 +218,15 @@ const FirstComponent = () => {
               {/* RA LOGIN */}
               <div className="input-box">
                 <span className="icon">
-                  <IoIosSchool />
+                  <IoMdMail />
                 </span>
                 <input type="text"
-                 required id="login_ra"
-                 maxLength="13"
-                 pattern="[0-9]+"
-                 onBlur={handleRaBlur}
-                 value={ra}
-                 onChange={handleRaChange} />
-                <label>Ra</label>
+                  required id="register_email"
+                  pattern=".+@.+\..+"
+                  onChange={handleEmailChange}
+                  onBlur={handleEmailBlur}
+                  value={email} />
+                <label>Email</label>
               </div>
 
               {/* SENHA LOGIN */}

@@ -9,26 +9,25 @@ import './info.css';
 
 const SecondComponent = () => {
   const [visibleIndex, setVisibleIndex] = useState(0);
-
   const [products, setProducts] = useState([])
   const [eventData, setEventData] = useState(null);
   const [warningData, setWarningData] = useState(null);
   const [courseData, setCourseData] = useState([]);
   
 //resgatando e executados dados para passar para eventos
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const events = await getEvents();
-        setEventData(events);
-      } catch (error) {
-        console.error(error);
-        setEventData([]);
-      }
-    };
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const events = await getEvents();
+      setEventData(events);
+    } catch (error) {
+      console.error(error);
+      setEventData([]);
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
 
   useEffect(() => {
     const fetchWarning = async () => {
@@ -99,10 +98,12 @@ const SecondComponent = () => {
               <div className="front">
                 <h2>{courseData.name}</h2>
                 <div className="cardinfo">
-                  <h3 className="andar">{courseData.period}</h3>
-                  <h3 className="curso">{courseData.start}</h3>
+                  <h3 className="andar">{courseData.floor}</h3>
+                  <h3 className="curso">{courseData.teacher}</h3>
                   <div className="imgcardone">
-                    <img className="foto fotoone" alt="" />
+                    <p className="horario" style={{ border: "none" }}>
+                      {courseData.start}
+                    </p>
                     <p className="horario" style={{ border: "none" }}>
                       {courseData.end}
                     </p>
@@ -113,10 +114,12 @@ const SecondComponent = () => {
               <div className="back">
                 <h2>{cardsBack[index].name}</h2>
                 <div className="cardinfo">
-                  <h3 className="andar">{cardsBack[index].period}</h3>
-                  <h3 className="curso">{cardsBack[index].start}</h3>
+                  <h3 className="andar">{cardsBack[index].floor}</h3>
+                  <h3 className="curso">{cardsBack[index].teacher}</h3>
                   <div className="imgcardone">
-                    <img className="foto fotoone" alt="" />
+                    <p className="horario" style={{ border: "none" }}>
+                      {cardsBack[index].start}
+                    </p>
                     <p className="horario" style={{ border: "none" }}>
                       {cardsBack[index].end}
                     </p>
@@ -159,7 +162,7 @@ const SecondComponent = () => {
                     <p>{eventData.title}</p>
                   </div>
                   <div className="imgevento">
-                    <img className="imghtml2" src={eventData.image_Uri} alt="" />
+                    <img className="imghtml2" src={`https://localhost:7245/api/Warnings/ShowImage/${eventData.image_Uri}`} alt="" />
                     <h4 className="textEvent">{eventData.description}</h4>
                   </div>
                 </div>

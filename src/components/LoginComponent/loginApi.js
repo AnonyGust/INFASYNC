@@ -2,12 +2,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import infatecFetch from '../../axios/config';
 
-export async function loginUser(ra, password, navigate) {
+export async function loginUser(email, password, navigate) {
   try {
     const data = {
-      ra: ra,
+      email: email,
       password: password,
+
+      
     };
+   
 
     const response = await infatecFetch.post('/api/Login/LoginUser', data);
     const token = response.data.bearer; // obter o token a partir da resposta da API
