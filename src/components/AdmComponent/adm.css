@@ -199,6 +199,10 @@ input#excel{
   color: green;
 }
 
+.select h3{
+  text-align: center;
+}
+
 .form-row {
   display: flex;
   flex-wrap: wrap;
@@ -287,17 +291,12 @@ form input[type="file"] {
   z-index: 1;
 }
 
-
-
 #cronogramas-form h2 {
   text-align: center;
   margin-bottom: 40px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
-
-
-
 
 #cronogramas-form input,
 #cronogramas-form select,
@@ -342,6 +341,7 @@ form input[type="file"] {
   form#cronogramas-form.active {
     width: auto;
   }
+  
 
 }
 

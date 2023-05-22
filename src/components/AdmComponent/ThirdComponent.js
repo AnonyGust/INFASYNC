@@ -1,5 +1,6 @@
+//navigate para navegar até a página de info
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // css
 import "./adm.css";
 // imagens
@@ -19,8 +20,10 @@ import { createCourse } from './submitExcelApi';
 import { deleteCourses } from './deleteAllCursesApi';
 //toastcontainer para sucesso e erro
 import { ToastContainer } from 'react-toastify';
-//navigate para navegar até a página de info
-
+//pegando os cursos
+import { getCourses } from './getAllCoursesApi';
+//react Select
+import Select from 'react-select';
 
 
 
@@ -40,6 +43,24 @@ const ThirdComponent = () => {
 
   const navigate = useNavigate();
 
+  const [cursos, setCursos] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const courses = await getCourses();
+      setCursos(courses);
+    };
+
+    fetchCourses();
+  }, []);
+
+  const options = cursos.map((curso, index) => ({
+    value: curso.Curso,
+    label: curso.Curso,
+  }));
+
+
+  getCourses()
   //abre e fecha eventos modal
   const toggleEventosForm = () => {
     setShowEventosForm(!showEventosForm);
@@ -115,6 +136,8 @@ const ThirdComponent = () => {
           <IoMdCalendar className="cronogramas-icon" />
           <button id="cronogramas" onClick={toggleCronogramasForm}>Cronogramas</button>
         </div>
+
+        {/* EVENTOS */}
         {showEventosForm &&
 
         <form id="eventos-form" onSubmit={sendEvents}>
@@ -150,6 +173,7 @@ const ThirdComponent = () => {
         </form>
         }
 
+        {/* AVISOS */}
         {showAvisosForm &&
           <form id="avisos-form" onSubmit={sendWarnings}>
             <span className="icon-close" onClick={closeFormAvisos}>
@@ -173,30 +197,27 @@ const ThirdComponent = () => {
             </button>
           </form>
         }
+
+        {/* CRONOGRAMAS */}
         {showCronogramasForm &&
           <form id="cronogramas-form" onSubmit={sendExcel}>
           <span className="icon-close" onClick={closeFormCronogramas}>
             <IoMdClose />
           </span>
           <h2>Cronogramas</h2>
-          <div className="excelAll">
-          <h3>Para carregar todos os cursos insira um arquivo Excel.</h3>
-            <div className="sendCurses">
-            <input type="file" id="excel" name="excel" onChange={handlerExcel} />
-            <div className="sendButtons">
-            <button id="btnExcel">
-            <IoMdSend /> Enviar Excel
-          </button>
-          <button id="btnDeleteCurses" onClick={deleteAllCurses}>
-            <IoMdSend /> Deletar todos os cursos
-          </button>
-          </div>
-          </div>
           
+
           
-          </div>
-          <hr />
-          <div className="form-row">
+          <div className="select">
+            <h3>Selecione sua máteria para editar</h3>
+          <Select
+              isMulti
+              options={options}
+              placeholder="Matéria"
+              />
+            </div>
+            <div className="form-row">
+              
             <div className="form-group">
               <label htmlFor="curso1">Nome do curso:</label>
               <input type="text" id="curso1" name="curso1" />
@@ -225,10 +246,6 @@ const ThirdComponent = () => {
               <input type="time" id="horarioFinal" name="horarioFinal" />
             </div>
             <div className="form-group">
-              <label htmlFor="foto1">Foto do professor:</label>
-              <input type="file" id="foto1" name="foto1" />
-            </div>
-            <div className="form-group">
               <label htmlFor="nomeProfessor">Nome do professor:</label>
               <input type="text" id="nomeProfessor" name="nomeProfessor" />
             </div>
@@ -236,6 +253,24 @@ const ThirdComponent = () => {
           <button id="btnCronograma">
             <IoMdSend /> Enviar
           </button>
+
+          <hr />
+
+          {/* ENVIAR E DELETAR TODOS OS CURSOS */}
+          <div className="excelAll">
+          <h3>Para carregar todos os cursos insira um arquivo Excel.</h3>
+            <div className="sendCurses">
+            <input type="file" id="excel" name="excel" onChange={handlerExcel} />
+            <div className="sendButtons">
+            <button id="btnExcel">
+            <IoMdSend /> Enviar Excel
+          </button>
+          <button id="btnDeleteCurses" onClick={deleteAllCurses}>
+            <IoMdSend /> Deletar todos os cursos
+          </button>
+          </div>
+          </div>
+          </div>
         </form>
         
         }

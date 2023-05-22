@@ -7,9 +7,9 @@ import React, { useState, useEffect } from 'react';
 import { createUser } from "./cadastroApi";
 import { loginUser } from "./loginApi";
 import { useNavigate } from "react-router-dom";
-import { getCurses } from "./selectCursesApi";
+import { getCourses } from "./selectCursesApi";
 //BIBLOTECA DO SELECTBOX
-import Multiselect from 'multiselect-react-dropdown';
+import Select from 'react-select';
 
 
 
@@ -34,24 +34,22 @@ const FirstComponent = () => {
   
   const [courseOptions, setCourseOptions] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const options = await getCurses();
-        console.log('Course Options:', options);
-        setCourseOptions(options);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+   //constantes para guardar e setar valores nas constantes
+   const [name, setName] = useState("");
+   const [ra, setRa] = useState("");
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+   const [cPassword, setCpassword] = useState("");
+ 
+   //atualizará o valor da constante com o valor inserido pelo usuário
+   const handleNameChange = (event) => setName(event.target.value);
+   const handleEmailChange = (event) => setEmail(event.target.value)
+   const handlePasswordChange = (event) => setPassword(event.target.value)
+   const handlecPasswordChange = (event) => setCpassword(event.target.value);
 
-    fetchData();
-  }, []);
 
-   
-
-  //limpa os campos de LOGIN quando muda pra outro formulário
-  const toggleLogin = () => {
+    //limpa os campos de LOGIN quando muda pra outro formulário
+    const toggleLogin = () => {
     setRa("");
     setPassword("");
     setLoginOpen(!loginOpen);
@@ -77,29 +75,31 @@ const FirstComponent = () => {
     setForgotPasswordOpen(!forgotPasswordOpen);
   };
 
+  //invoca e faz filtro em cursos para SELECT
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const options = await getCourses();
+        setCourseOptions(options);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //Constante para guardar os valores filtrados de cursos
+  const options = courseOptions.map((courseOptions, index) => ({
+    value: courseOptions.Curso,
+    label: courseOptions.Curso,
+  }));
+
   //estado inicial de LOGIN como true e executa somente uma vez
   React.useEffect(() => {
     setLoginOpen(true);
   }, []);
-
-
-  //constantes para guardar e setar valores nas constantes
-  const [name, setName] = useState("");
-  const [ra, setRa] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [cPassword, setCpassword] = useState("");
-
-  //atualizará o valor da constante com o valor inserido pelo usuário
-  const handleNameChange = (event) => setName(event.target.value);
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value)
-  console.log(email)}
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  console.log(password)};
-  const handlecPasswordChange = (event) => setCpassword(event.target.value);
-
+ 
 
   //NÃO PERMITE QUE SEJA DIGITADO LETRAS NA PARTE DO RA
   const handleRaChange = (event) => {
@@ -261,15 +261,13 @@ const FirstComponent = () => {
 
               {/* SELECT BOX */}
               <div className="select-container">
-                  <h4>Selecione o curso</h4>
-                  <Multiselect 
-                      isObject={false}
-                      onRemove={(event)=>{  console.log(event)} }
-                      onSelect={ (event)=>{ console.log(event) }}
-                      options={courseOptions}              
-
-                      showCheckbox
-                      />      
+                  <h4>Selecione suas matérias</h4>
+                  <Select
+                  isMulti
+                  options={options}
+                  placeholder="Matérias"
+                  isSearchable={false} // Remover a opção de digitar
+    />     
                 </div>
 
               {/* NOME REGISTRO */}

@@ -99,7 +99,7 @@ useEffect(() => {
                 <h2>{courseData.name}</h2>
                 <div className="cardinfo">
                   <h3 className="andar">{courseData.floor}</h3>
-                  <h3 className="curso">{courseData.teacher}</h3>
+                  <h3 className="curso">{courseData.matter}</h3>
                   <div className="horarioInicio">
                     <p className="horario" style={{ border: "none" }}>
                       {courseData.start}
@@ -116,7 +116,7 @@ useEffect(() => {
                 <h2>{cardsBack[index].name}</h2>
                 <div className="cardinfo">
                   <h3 className="andar">{cardsBack[index].floor}</h3>
-                  <h3 className="curso">{cardsBack[index].teacher}</h3>
+                  <h3 className="curso">{cardsBack[index].matter}</h3>
                   <div className="horarioInicio">
                     <p className="horario" style={{ border: "none" }}>
                       {cardsBack[index].start}
@@ -146,14 +146,15 @@ useEffect(() => {
         <p>{warningData[warningData.length - 1].title}</p>
         </div>
      
-      <div className="avisoall">
+      
         <div className="imgaviso">
-          <img className="imghtml1" src={`https://localhost:7245/api/Warnings/ShowImage/${warningData[warningData.length - 1].image_Uri}`}
+          <img className="imghtml1"
+           src={`https://localhost:7245/api/Warnings/ShowImage/${warningData[warningData.length - 1].imageName}`}
             alt=""
           />
           <h3 className="textAviso">{warningData[warningData.length - 1].message}</h3>
         </div>
-        </div>
+        
 
       </div>
       )}
@@ -171,7 +172,7 @@ useEffect(() => {
         <div className="imgevento">
           <img
             className="imghtml2"
-            src={`https://localhost:7245/api/Warnings/ShowImage/${eventData[eventData.length - 1].image_Uri}`}
+            src={`https://localhost:7245/api/Events/ViewImageEvent/${eventData[eventData.length - 1].image_Uri}`}
             alt=""
           />
           <h4 className="textEvent">{eventData[eventData.length - 1].description}</h4>

@@ -9,7 +9,7 @@ export const createEvent = async (title, description, imageFile) => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('imageFile', imageFile);
-    formData.append('image_Uri', '');
+    formData.append('imgUri', '');
   
     try {
       const token = sessionStorage.getItem('bearer');
@@ -19,8 +19,8 @@ export const createEvent = async (title, description, imageFile) => {
           'Authorization': `Bearer ${token}`,
         },
       });
+
       toast.success("Evento enviado com sucesso")
-      console.log(formData);
     } catch (error) {
       console.error(error);
       toast.error("Não foi possível enviar o evento")
