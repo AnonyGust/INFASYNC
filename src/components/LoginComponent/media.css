@@ -32,3 +32,19 @@
 }
 
 
+@media (max-width: 400px){
+    .form-box.active{
+    top: 55%;
+
+    }
+    .form-box.register.active.form-register{
+        height: 450px;
+        
+    }
+
+    #register_form {
+        height: 450px;
+        
+    }
+   
+}

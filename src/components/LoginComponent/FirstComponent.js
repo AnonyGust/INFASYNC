@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { getCourses } from "./selectCursesApi";
 //BIBLOTECA DO SELECTBOX
 import Select from 'react-select';
-
+import { useRef } from 'react';
 
 
 //icons
@@ -91,7 +91,7 @@ const FirstComponent = () => {
 
   //Constante para guardar os valores filtrados de cursos
   const options = courseOptions.map((courseOptions, index) => ({
-    value: courseOptions.Curso,
+    value: courseOptions.Id,
     label: courseOptions.Curso,
   }));
 
@@ -122,17 +122,16 @@ const FirstComponent = () => {
   };
 
   //evento para checar email e verificar se tem dominio @fatec.sp.gov.br
+
   const handleEmailBlur = (e) => {
     const input = e.target;
     const emailValue = input.value.trim();
-    console.log(input.value)
-    
-    if (!input.validity.valid && e.relatedTarget === null) {
+
+    if (!emailValue.endsWith('@fatec.sp.gov.br')) {
       input.focus();
-      toast.error("Digite um e-mail válido");
-      return;
+      toast.error('Digite um e-mail válido @fatec.sp.gov.br')
     }
-  };
+  }
 
 
   //evento para não deixar clicar em outro input caso a senha esteja incorreta
@@ -158,14 +157,25 @@ const FirstComponent = () => {
    await loginUser(email, password, navigate);
   }
 
+  // Função para armazenar o ID da matéria selecionada no localStorage
+const handleCourseSelect = (selectedOptions) => {
+  if (selectedOptions && selectedOptions.length > 0) {
+    const selectedCourseId = selectedOptions[0].value;
+    console.log(selectedCourseId)
+    localStorage.setItem('selectedCourseId', selectedCourseId);
+  } else {
+    toast.error("não foi possível obter a materia")
+  }
+};
+
   
   
   //GERA ERRO QUANDO CLICADO EM REGISTRO SE ALGO NÃO ESTIVER PREENCHIDO (SENHA COINCIDIREM E CURSO)
  const handleSubmitRegister = async (event) => {
     event.preventDefault();
 
-    //METODO DE CADASTRO
-    await createUser(ra, name, email, password);
+   
+    
 
 
 
@@ -174,7 +184,13 @@ const FirstComponent = () => {
       return;
     }
     // Verifica se o curso foi selecionado
-   
+    const selectedCourseId = localStorage.getItem('selectedCourseId');
+    if (!selectedCourseId) {
+    toast.error('Selecione um curso!');
+    return;
+  }
+   //METODO DE CADASTRO
+    await createUser(ra, name, email, password, selectedCourseId);
   };
 
 
@@ -248,7 +264,7 @@ const FirstComponent = () => {
 
             </form>
             <div className="footer-login">
-              <p>Ainda não tem uma conta? <a className="go-register" href="#" onClick={() => { toggleLogin(); toggleRegister() }}>Crie agora</a></p>
+              <p>Ainda não tem uma conta? <p className="go-register" onClick={() => { toggleLogin(); toggleRegister() }}>Crie agora</p></p>
             </div>
 
           </div>
@@ -266,8 +282,9 @@ const FirstComponent = () => {
                   isMulti
                   options={options}
                   placeholder="Matérias"
-                  isSearchable={false} // Remover a opção de digitar
-    />     
+                  isSearchable={false}// Remover a opção de digitar
+                  onChange={handleCourseSelect} 
+                  />          
                 </div>
 
               {/* NOME REGISTRO */}
@@ -343,8 +360,8 @@ const FirstComponent = () => {
 
               <button className="btn-registrar" type="submit">Registrar</button>
 
-              <p>Já possuí uma conta? <a className="back-to-login" href="#"
-                onClick={() => { toggleRegister(); toggleLogin() }}> Login</a> </p>
+              <p className="backLogin">Já possuí uma conta? <p className="back-to-login"
+                onClick={() => { toggleRegister(); toggleLogin() }}> Login</p> </p>
 
             </form>
           </div>
@@ -375,8 +392,8 @@ const FirstComponent = () => {
 
               <button type="submit" className="btn-forgot-password">Recuperar Senha</button>
 
-              <p><a className="back-to-login" href="#"
-                onClick={() => { toggleLogin() }}>Voltar para Login</a> </p>
+              <p><p className="back-to-login" 
+                onClick={() => { toggleLogin() }}>Voltar para Login</p> </p>
 
             </form>
           </div>

@@ -11,6 +11,7 @@ export const getCourses = async () => {
   
       const courses = response.data.data.map((course) => ({
        Curso: course.matter,
+       Id: course.id,
       }));
       console.log(courses)
       return courses;

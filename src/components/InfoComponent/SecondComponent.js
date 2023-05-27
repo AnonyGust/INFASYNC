@@ -96,7 +96,9 @@ useEffect(() => {
           {cardsFront.slice(visibleIndex, visibleIndex + 6).map((courseData, index) => (
             <div className={`card card${index + 1} ${isFlipped ? "flipped" : ""}`} key={index}>
               <div className="front">
+                <div className="courseName">
                 <h2>{courseData.name}</h2>
+                </div>
                 <div className="cardinfo">
                   <h3 className="andar">{courseData.floor}</h3>
                   <h3 className="curso">{courseData.matter}</h3>

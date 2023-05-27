@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import infatecFetch from '../../axios/config';
 
-export async function createUser(ra, name, email, password) {
+export async function createUser(ra, name, email, password, selectedCourseId) {
     try {
       const data = {
         ra: ra,
@@ -10,7 +10,7 @@ export async function createUser(ra, name, email, password) {
         email: email,
         password: password,
         type: 1,
-        coursesId: '1',
+        coursesId: selectedCourseId,
         cpf: '11111111113',
       };
       console.log(data)

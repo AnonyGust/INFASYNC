@@ -1,0 +1,135 @@
+.profile-menu {
+  position: absolute;
+  top: 90px;
+  left: 10px;
+  
+}
+
+.profile-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
+  font-size: 20px;
+  background-color: black;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 12px;
+  width: 100px;
+  height: 50px;
+}
+
+
+.profile-button:active{
+  background-color: antiquewhite;
+  color: black;
+  border: 2px solid ;
+}
+
+.menu-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.menu-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.menu-exit {
+  opacity: 1;
+}
+
+.menu-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.profile-info {
+  margin-bottom: 1rem;
+  position: relative;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-enter-active .profile-info {
+  transform: translateY(0);
+}
+
+.profile-info h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.profile-info p {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.profile-info strong {
+  font-weight: bold;
+}
+
+.perfil {
+  margin-bottom: 1rem;
+}
+
+.send-perfil {
+  background-color: black;
+  color: #fff;
+  border: 2px solid white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background-color 300ms;
+}
+
+.send-perfil:active {
+  background-color: white;
+  color: black;
+}
+.profile-form{
+  background-color: rgb(0, 0, 0);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+.profile-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.profile-form .form-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.profile-form .form-field label {
+  width: 100px;
+}
+
+.profile-form .form-field input[type="text"],
+.profile-form .form-field input[type="email"],
+.profile-form .form-field input[type="password"] {
+  flex: 1;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.profile-form .form-field input[type="text"]:focus,
+.profile-form .form-field input[type="email"]:focus,
+.profile-form .form-field input[type="password"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}

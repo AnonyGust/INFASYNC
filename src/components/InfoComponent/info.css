@@ -106,6 +106,13 @@ body{
     font-family: 'roboto-medium';
 }
 
+.courseName{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6.5vh;
+}
+
 .andar, .curso{
     font-family: 'roboto-medium';
     text-transform: uppercase;

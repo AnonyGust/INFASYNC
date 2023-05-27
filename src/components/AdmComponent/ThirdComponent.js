@@ -24,7 +24,11 @@ import { ToastContainer } from 'react-toastify';
 import { getCourses } from './getAllCoursesApi';
 //react Select
 import Select from 'react-select';
+//userProfile
+import ProfileMenu from './profileMenu/profileMenuAdm';
 
+
+import infatecFetch from '../../axios/config';
 
 
 
@@ -32,6 +36,14 @@ const ThirdComponent = () => {
   const [showEventosForm, setShowEventosForm] = useState(false);
   const [showAvisosForm, setShowAvisosForm] = useState(false);
   const [showCronogramasForm, setShowCronogramasForm] = useState(false);
+
+  const [nomeCurso, setNomeCurso] = useState("");
+  const [andar, setAndar] = useState("");
+  const [materia, setMateria] = useState("");
+  const [periodo, setPeriodo] = useState("");
+  const [horarioInicio, setHorarioInicio] = useState("");
+  const [horarioFinal, setHorarioFinal] = useState("");
+  const [nomeProfessor, setNomeProfessor] = useState("");
 
   const [title, setTitle]= useState("");
   const [description, setDescription] = useState("");
@@ -45,22 +57,42 @@ const ThirdComponent = () => {
 
   const [cursos, setCursos] = useState([]);
 
+  const [options, setOptions] = useState([]);
+  
   useEffect(() => {
     const fetchCourses = async () => {
       const courses = await getCourses();
       setCursos(courses);
+  
+      // Obter o valor de selectedCourseId do localStorage
+      let selectedCourseId = localStorage.getItem('selectedCourseId');
+      console.log(selectedCourseId);
+  
+      // Verificar se o ID da materia selecionado está presente na lista de cursos
+      const cursoSelecionado = courses.find(curso => curso.Id === parseInt(selectedCourseId));
+      
+      // Se o ID da materia não estiver presente, definir o primeiro curso como selecionado
+      if (!cursoSelecionado && courses.length > 0) {
+        cursoSelecionado = courses[0];
+        selectedCourseId = cursoSelecionado.Id.toString();
+        localStorage.setItem('selectedCourseId', selectedCourseId);
+      }
+  
+      console.log(cursoSelecionado);
+  
+      // Criar as opções com base no curso selecionado
+      const options = cursoSelecionado ? [{ value: cursoSelecionado.Id, label: cursoSelecionado.Curso }] : [];
+  
+      // Definir as opções no estado
+      setOptions(options);
     };
-
+  
     fetchCourses();
   }, []);
 
-  const options = cursos.map((curso, index) => ({
-    value: curso.Curso,
-    label: curso.Curso,
-  }));
-
 
   getCourses()
+  
   //abre e fecha eventos modal
   const toggleEventosForm = () => {
     setShowEventosForm(!showEventosForm);
@@ -114,11 +146,43 @@ const ThirdComponent = () => {
     e.preventDefault();
     createWarning(imageName, message, imageFile)
   };
+
+  const editarCurso = async () => {
+    try {
+      const dadosAtualizados = {
+        id: '1',
+        name: nomeCurso,
+        period: 'niggt',
+        matter: materia,
+        floor: andar,
+        start: {
+          "ticks": horarioInicio
+        },
+        end: {
+          "ticks": horarioFinal
+        },
+        coordinator: nomeProfessor,
+        excel: "sei la"
+      };
+      console.log(dadosAtualizados)
+      const token = sessionStorage.getItem('bearer');
+      
+      await infatecFetch.put('/api/Courses/UpdateCourse/2', dadosAtualizados, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
   
+      console.log('Curso editado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao editar o curso:', error);
+    }
+  };
   
 
   return (
     <>
+ 
       <header className='header-adm'>
         <nav className="navigation">
           <div className="logo">
@@ -127,7 +191,10 @@ const ThirdComponent = () => {
           </div>
         </nav>
       </header>
+     
       <main>
+      
+        <ProfileMenu />
         <div className="center">
           <IoIosSchool className='eventos-icon' />
           <button id="eventos" onClick={toggleEventosForm}>Eventos</button>
@@ -217,47 +284,88 @@ const ThirdComponent = () => {
               />
             </div>
             <div className="form-row">
-              
-            <div className="form-group">
-              <label htmlFor="curso1">Nome do curso:</label>
-              <input type="text" id="curso1" name="curso1" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="andar">Andar:</label>
-              <input type="text" id="andar" name="andar" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="materia">Materia:</label>
-              <input type="text" id="materia" name="materia" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="periodo1">Período:</label>
-              <select id="periodo1" name="periodo1">
-                <option value="dia">Dia</option>
-                <option value="noite">Noite</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="horarioInicio">horário de início:</label>
-              <input type="time" id="horarioInicio" name="horarioInicio" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="horarioFinal">horário final:</label>
-              <input type="time" id="horarioFinal" name="horarioFinal" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="nomeProfessor">Nome do professor:</label>
-              <input type="text" id="nomeProfessor" name="nomeProfessor" />
-            </div>
-          </div>
-          <button id="btnCronograma">
-            <IoMdSend /> Enviar
-          </button>
+    <div className="form-group">
+      <label htmlFor="curso1">Nome do curso:</label>
+      <input
+        type="text"
+        id="curso1"
+        name="curso1"
+        value={nomeCurso}
+        onChange={(e) => setNomeCurso(e.target.value)}
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="andar">Andar:</label>
+      <input
+        type="text"
+        id="andar"
+        name="andar"
+        value={andar}
+        onChange={(e) => setAndar(e.target.value)}
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="materia">Matéria:</label>
+      <input
+        type="text"
+        id="materia"
+        name="materia"
+        value={materia}
+        onChange={(e) => setMateria(e.target.value)}
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="periodo1">Período:</label>
+      <select
+        id="periodo1"
+        name="periodo1"
+        value={periodo}
+        onChange={(e) => setPeriodo(e.target.value)}
+      >
+        <option value="dia">Dia</option>
+        <option value="noite">Noite</option>
+      </select>
+    </div>
+    <div className="form-group">
+      <label htmlFor="horarioInicio">Horário de início:</label>
+      <input
+        type="time"
+        id="horarioInicio"
+        name="horarioInicio"
+        value={horarioInicio}
+        onChange={(e) => setHorarioInicio(e.target.value)}
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="horarioFinal">Horário final:</label>
+      <input
+        type="time"
+        id="horarioFinal"
+        name="horarioFinal"
+        value={horarioFinal}
+        onChange={(e) => setHorarioFinal(e.target.value)}
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor="nomeProfessor">Nome do professor:</label>
+      <input
+        type="text"
+        id="nomeProfessor"
+        name="nomeProfessor"
+        value={nomeProfessor}
+        onChange={(e) => setNomeProfessor(e.target.value)}
+      />
+    </div>
+  </div>
+  <button id="btnCronograma" onClick={editarCurso}>
+    <IoMdSend /> Enviar
+  </button>
 
           <hr />
 
           {/* ENVIAR E DELETAR TODOS OS CURSOS */}
-          <div className="excelAll">
+           {/* ENVIAR E DELETAR TODOS OS CURSOS */}
+           <div className="excelAll">
           <h3>Para carregar todos os cursos insira um arquivo Excel.</h3>
             <div className="sendCurses">
             <input type="file" id="excel" name="excel" onChange={handlerExcel} />

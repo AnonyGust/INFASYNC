@@ -9,6 +9,7 @@ export const createEvent = async (title, description, imageFile) => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('imageFile', imageFile);
+    formData.append('imageName', 'teste');
     formData.append('imgUri', '');
   
     try {

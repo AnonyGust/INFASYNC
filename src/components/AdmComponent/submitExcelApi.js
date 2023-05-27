@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 export const createCourse = async (excel) => {
     const formData = new FormData();
-  
+    
     formData.append('file', excel);
   
     try {

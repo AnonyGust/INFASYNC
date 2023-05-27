@@ -3,6 +3,8 @@ import "react-toastify/dist/ReactToastify.css";
 import infatecFetch from '../../axios/config';
 
 export async function loginUser(email, password, navigate) {
+
+
   try {
     const data = {
       email: email,
@@ -10,8 +12,6 @@ export async function loginUser(email, password, navigate) {
 
       
     };
-   
-
     const response = await infatecFetch.post('/api/Login/LoginUser', data);
     const token = response.data.bearer; // obter o token a partir da resposta da API
     sessionStorage.setItem('bearer', token); // armazenar o token na sessionStorage
