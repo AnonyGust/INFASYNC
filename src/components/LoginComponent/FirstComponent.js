@@ -2,7 +2,7 @@ import "./login.css"
 import "./animationSquare.css"
 import "./media.css"
 import logo from './assets/logo.png';
-import infatec from './assets/infatec.png'
+import infasync from './assets/infasync.png'
 import React, { useState, useEffect } from 'react';
 import { createUser } from "./cadastroApi";
 import { loginUser } from "./loginApi";
@@ -202,7 +202,7 @@ const handleCourseSelect = (selectedOptions) => {
         <nav className="navigation">
           <div className="logo">
             <img className="imgone" src={logo} alt="logo" />
-            <img className="imgtwo" src={infatec} alt="infatec" />
+            <img className="imgtwo" src={infasync} alt="infasync" />
           </div>
           <div className="btns">
             <button className="btnLogin-popup" onClick={toggleLogin}>Login</button>

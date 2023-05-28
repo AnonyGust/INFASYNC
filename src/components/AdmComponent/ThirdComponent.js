@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import "./adm.css";
 // imagens
 import logo from './assets/logo.png';
-import infatec from './assets/infatec.png';
+import infasync from './assets/infasync.png';
 // icones
 import { IoIosSchool } from "react-icons/io";
 import { IoMdAlert } from "react-icons/io";
@@ -187,7 +187,7 @@ const ThirdComponent = () => {
         <nav className="navigation">
           <div className="logo">
             <img className="imgone" src={logo} alt="logo" />
-            <img className="imgtwo" src={infatec} alt="infatec" />
+            <img className="imgtwo" src={infasync} alt="infasync" />
           </div>
         </nav>
       </header>
@@ -197,9 +197,9 @@ const ThirdComponent = () => {
         <ProfileMenu />
         <div className="center">
           <IoIosSchool className='eventos-icon' />
-          <button id="eventos" onClick={toggleEventosForm}>Eventos</button>
+          <button id="eventos" onClick={toggleEventosForm}>Evento</button>
           <IoMdAlert className="avisos-icon" />
-          <button id="avisos" onClick={toggleAvisosForm}>Avisos</button>
+          <button id="avisos" onClick={toggleAvisosForm}>Aviso</button>
           <IoMdCalendar className="cronogramas-icon" />
           <button id="cronogramas" onClick={toggleCronogramasForm}>Cronogramas</button>
         </div>

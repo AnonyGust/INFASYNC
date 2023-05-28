@@ -31,6 +31,7 @@ export async function loginUser(email, password, navigate) {
     );
 
     console.log(response.data);
+    console.log(response)
     navigate('/adm');
 
     

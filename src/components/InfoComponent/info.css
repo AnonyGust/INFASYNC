@@ -37,10 +37,15 @@ body{
     font-weight: 500;
 }
 
-.imgone {
-    width: 5rem;
-    height: 5rem;
+.imginfo{
+    width: 4rem;
+    height: 4rem;
     margin-right: 20px;
+    filter: contrast(100%);
+}
+
+.infasync{
+
 }
 
 .imgone img{

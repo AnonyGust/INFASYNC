@@ -3,7 +3,7 @@ import { getEvents } from "./getEventsApi";
 import { getWarnings } from "./getWarningsApi";
 import { getAllCourses } from "./getCoursesAllApi";
 import logo from './assets/logo.png';
-import fundo from './assets/fundopreto.jpg';
+import infasync from './assets/infasync.png'
 import './info.css';
 
 
@@ -83,10 +83,10 @@ useEffect(() => {
       <header>
         <nav className="header-content">
           <div className="superman">
-            <img className="imgone" src={logo} alt="logo" />
+            <img className="imginfo" src={logo} alt="logo" />
           </div>
           <div className="textone">
-            <h1>cronograma em tempo real</h1>
+            <img className="infasync" src={infasync} alt="infasync" />
           </div>
         </nav>
       </header>
