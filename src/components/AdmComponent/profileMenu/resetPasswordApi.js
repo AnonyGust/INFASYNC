@@ -1,4 +1,6 @@
+import { toast } from "react-toastify";
 import infatecFetch from "../../../axios/config";
+
 
 export const resetPassword = async (email, password) => {
   try {
@@ -16,9 +18,12 @@ export const resetPassword = async (email, password) => {
       },
     });
     console.log(response);
+    toast.success("Senha redefinida com sucesso.")
     return response; // Retorne a resposta da requisição, se necessário
+    
 
   } catch (error) {
+    toast.error("Falha ao redefinir senha.")
     console.error(error);
     return []; // Retorne um array vazio em caso de erro
   }

@@ -14,10 +14,10 @@ export const createCourse = async (excel) => {
           'Authorization': `Bearer ${token}`,
         },
       });
-      toast.success("Cursos enviados com sucesso")
+      toast.success("Todos Cronogramas enviados com sucesso")
       console.log(formData);
     } catch (error) {
       console.error(error);
-      toast.error("Não foi possível enviar os cursos")
+      toast.error("Falha ao enviar todos os Cronogramas")
     }
   };

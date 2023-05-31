@@ -151,6 +151,23 @@ form label {
   font-weight: bold;
 }
 
+.order{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ordem{
+  border: 2px solid green;
+  border-radius: 10px;
+  color: green;
+  padding: 10px;
+}
+
+.warningIcon{
+  font-size: 25px;
+}
+
 input#titulo,
 input#imagemEventos2,
 input#imagem,
@@ -189,16 +206,15 @@ input#titleWarning {
 }
 
 .excelAll>h3{
-  
+  margin-top: 15px;
   margin-bottom: 15px;
 }
 
 input#excel{
   margin-bottom: 15px;
-  border: 2px solid green;
+  border: 2px solid #ccc;
   border-radius: 5px;
   padding: 5px;
-  color: green;
 }
 
 .select h3{

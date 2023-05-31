@@ -24,7 +24,7 @@ export const createEvent = async (title, description, imageFile) => {
       toast.success("Evento enviado com sucesso")
     } catch (error) {
       console.error(error);
-      toast.error("Não foi possível enviar o evento")
+      toast.error("Falha ao enviar o evento")
     }
   };
   

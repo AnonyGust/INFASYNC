@@ -12,6 +12,7 @@ import { IoMdAlert } from "react-icons/io";
 import { IoMdCalendar } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { IoMdSend } from "react-icons/io";
+import {IoIosWarning} from "react-icons/io"
 // funções para enviar eventos, avisos e cronogramas
 import { createEvent } from './submitEventsApi';
 import { createWarning } from './submitWarningsApi';
@@ -129,12 +130,19 @@ const ThirdComponent = () => {
   //Envia todos os cursos em Excel
   const sendExcel = (e) => {
     e.preventDefault();
-    createCourse(excel);
+    const shouldSend = window.confirm('Tem certeza de que deseja enviar todos os Cronogramas?');
+    if (shouldSend) {
+      createCourse(excel);
+    }
   };
   //apaga todos os cursos 
   const deleteAllCurses = (e) => {
     e.preventDefault();
-    deleteCourses();
+    const shouldDelete = window.confirm('Tem certeza de que deseja enviar todos os Cronogramas?');
+    if (shouldDelete) {
+      deleteCourses();
+    }
+    
   };
   //Envia eventos
   const sendEvents = (e) => {
@@ -197,9 +205,9 @@ const ThirdComponent = () => {
         <ProfileMenu />
         <div className="center">
           <IoIosSchool className='eventos-icon' />
-          <button id="eventos" onClick={toggleEventosForm}>Evento</button>
+          <button id="eventos" onClick={toggleEventosForm}>Enviar Evento</button>
           <IoMdAlert className="avisos-icon" />
-          <button id="avisos" onClick={toggleAvisosForm}>Aviso</button>
+          <button id="avisos" onClick={toggleAvisosForm}>Enviar Aviso</button>
           <IoMdCalendar className="cronogramas-icon" />
           <button id="cronogramas" onClick={toggleCronogramasForm}>Cronogramas</button>
         </div>
@@ -234,9 +242,15 @@ const ThirdComponent = () => {
           name="imagemEventos2"
           onChange={handlerImagem}
         />
-        <button id="btnEventos" type="submit">
-          <IoMdSend /> Enviar
-        </button>
+
+        <button className='send-perfil' type="submit" onClick={(event) => {
+            const shouldSubmit = window.confirm('Tem certeza de que deseja enviar o evento?');
+            if (!shouldSubmit) {
+              event.preventDefault();
+            }
+          }}>
+            Enviar
+          </button>
         </form>
         }
 
@@ -259,22 +273,25 @@ const ThirdComponent = () => {
             <textarea id="aviso" value={message} onChange={(e) => setMessage(e.target.value)}name="aviso"></textarea>
             <label htmlFor="imagemEvento">Anexar Imagem:</label>
             <input type="file" id="imagem" name="imagem" onChange={handlerImagem} />
-            <button id="btnAvisos" type="submit">
-              <IoMdSend /> Enviar
+
+            <button className='send-perfil' type="submit" onClick={(event) => {
+              const shouldSubmit = window.confirm('Tem certeza de que deseja enviar o aviso?');
+              if (!shouldSubmit) {
+                event.preventDefault();
+              }
+            }}>
+              Enviar
             </button>
           </form>
         }
 
         {/* CRONOGRAMAS */}
         {showCronogramasForm &&
-          <form id="cronogramas-form" onSubmit={sendExcel}>
+          <form id="cronogramas-form">
           <span className="icon-close" onClick={closeFormCronogramas}>
             <IoMdClose />
           </span>
-          <h2>Cronogramas</h2>
-          
-
-          
+          <h2>Cronogramas</h2>       
           <div className="select">
             <h3>Selecione sua máteria para editar</h3>
           <Select
@@ -289,6 +306,7 @@ const ThirdComponent = () => {
       <input
         type="text"
         id="curso1"
+        required
         name="curso1"
         value={nomeCurso}
         onChange={(e) => setNomeCurso(e.target.value)}
@@ -308,7 +326,7 @@ const ThirdComponent = () => {
       <label htmlFor="materia">Matéria:</label>
       <input
         type="text"
-        id="materia"
+        id="materia"      
         name="materia"
         value={materia}
         onChange={(e) => setMateria(e.target.value)}
@@ -340,7 +358,7 @@ const ThirdComponent = () => {
       <label htmlFor="horarioFinal">Horário final:</label>
       <input
         type="time"
-        id="horarioFinal"
+        id="horarioFinal"  
         name="horarioFinal"
         value={horarioFinal}
         onChange={(e) => setHorarioFinal(e.target.value)}
@@ -349,7 +367,7 @@ const ThirdComponent = () => {
     <div className="form-group">
       <label htmlFor="nomeProfessor">Nome do professor:</label>
       <input
-        type="text"
+        type="text" 
         id="nomeProfessor"
         name="nomeProfessor"
         value={nomeProfessor}
@@ -357,24 +375,41 @@ const ThirdComponent = () => {
       />
     </div>
   </div>
-  <button id="btnCronograma" onClick={editarCurso}>
-    <IoMdSend /> Enviar
-  </button>
+      <button id="btnCronograma" onClick={(event) => {
+        const shouldSubmit = window.confirm('Tem certeza de que deseja enviar a modificação de matéria?');
+        if (shouldSubmit) {
+          editarCurso();
+        } else {
+          event.preventDefault();
+        }
+      }}>
+        <IoMdSend /> Enviar
+      </button>
+
 
           <hr />
 
           {/* ENVIAR E DELETAR TODOS OS CURSOS */}
            {/* ENVIAR E DELETAR TODOS OS CURSOS */}
            <div className="excelAll">
-          <h3>Para carregar todos os cursos insira um arquivo Excel.</h3>
+          <h3>Para carregar todos os cronogramas insira um arquivo <span style={{ color: 'green' }}>Excel</span>.</h3>
+          <div className="order">
+          <IoIosWarning className='warningIcon' />
+          <h4>   É necessário que o documento esteja preenchido na seguinte ordem  </h4>
+          <IoIosWarning className='warningIcon' />
+          </div> 
+          
+          <br />
+          <h4 className='ordem'><strong> Curso, Período, Horário de Início, Horário Final, Nome do Professor, Matéria e Andar. </strong></h4>
+          <br />
             <div className="sendCurses">
             <input type="file" id="excel" name="excel" onChange={handlerExcel} />
             <div className="sendButtons">
-            <button id="btnExcel">
-            <IoMdSend /> Enviar Excel
+            <button id="btnExcel" onClick={sendExcel}>
+            <IoMdSend /> Enviar todos Cronogramas
           </button>
           <button id="btnDeleteCurses" onClick={deleteAllCurses}>
-            <IoMdSend /> Deletar todos os cursos
+            <IoMdSend /> Deletar todos cronogramas
           </button>
           </div>
           </div>
