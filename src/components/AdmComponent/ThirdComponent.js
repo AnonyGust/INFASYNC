@@ -28,8 +28,7 @@ import Select from 'react-select';
 //userProfile
 import ProfileMenu from './profileMenu/profileMenuAdm';
 
-
-import infatecFetch from '../../axios/config';
+import { editCourses } from './editCursesApi';
 
 
 
@@ -70,7 +69,7 @@ const ThirdComponent = () => {
       console.log(selectedCourseId);
   
       // Verificar se o ID da materia selecionado está presente na lista de cursos
-      const cursoSelecionado = courses.find(curso => curso.Id === parseInt(selectedCourseId));
+      let cursoSelecionado = courses.find(curso => curso.Id === parseInt(selectedCourseId));
       
       // Se o ID da materia não estiver presente, definir o primeiro curso como selecionado
       if (!cursoSelecionado && courses.length > 0) {
@@ -91,6 +90,8 @@ const ThirdComponent = () => {
     fetchCourses();
   }, []);
 
+  //pegando o valor de localstorage
+  const idCourse = localStorage.getItem('selectedCourseId')
 
   getCourses()
   
@@ -154,37 +155,9 @@ const ThirdComponent = () => {
     e.preventDefault();
     createWarning(imageName, message, imageFile)
   };
-
+  //edita o curso Selecionado
   const editarCurso = async () => {
-    try {
-      const dadosAtualizados = {
-        id: '1',
-        name: nomeCurso,
-        period: 'niggt',
-        matter: materia,
-        floor: andar,
-        start: {
-          "ticks": horarioInicio
-        },
-        end: {
-          "ticks": horarioFinal
-        },
-        coordinator: nomeProfessor,
-        excel: "sei la"
-      };
-      console.log(dadosAtualizados)
-      const token = sessionStorage.getItem('bearer');
-      
-      await infatecFetch.put('/api/Courses/UpdateCourse/2', dadosAtualizados, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-  
-      console.log('Curso editado com sucesso!');
-    } catch (error) {
-      console.error('Erro ao editar o curso:', error);
-    }
+    editCourses(idCourse ,nomeCurso, materia, andar, nomeProfessor)
   };
   
 
@@ -297,9 +270,12 @@ const ThirdComponent = () => {
           <Select
               isMulti
               options={options}
+              
               placeholder="Matéria"
               />
+              
             </div>
+            
             <div className="form-row">
     <div className="form-group">
       <label htmlFor="curso1">Nome do curso:</label>
@@ -378,6 +354,7 @@ const ThirdComponent = () => {
       <button id="btnCronograma" onClick={(event) => {
         const shouldSubmit = window.confirm('Tem certeza de que deseja enviar a modificação de matéria?');
         if (shouldSubmit) {
+          event.preventDefault();
           editarCurso();
         } else {
           event.preventDefault();
@@ -389,7 +366,6 @@ const ThirdComponent = () => {
 
           <hr />
 
-          {/* ENVIAR E DELETAR TODOS OS CURSOS */}
            {/* ENVIAR E DELETAR TODOS OS CURSOS */}
            <div className="excelAll">
           <h3>Para carregar todos os cronogramas insira um arquivo <span style={{ color: 'green' }}>Excel</span>.</h3>

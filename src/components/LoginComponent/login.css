@@ -208,6 +208,18 @@ p{
     width: 400px;
     height: 350px;
   }
+
+  .form-box.new-password.active.form-newPassword{
+    height: 500px;
+  }
+
+  .form-newPassword{
+    width: 400px;
+    height: 500px;
+  }
+  #new_password_form{
+    background-color: antiquewhite;
+  }
   
   .input-box{
     position: relative;

@@ -104,11 +104,9 @@ useEffect(() => {
                   <h3 className="curso">{courseData.matter}</h3>
                   <div className="horarioInicio">
                     <p className="horario" style={{ border: "none" }}>
-                      {courseData.start}
-                    </p>
-                  
-                    <p className="horario" style={{ border: "none" }}>
-                      {courseData.end}
+                    <div>{courseData.period.split(" ")[0]}</div>
+                    <div>{courseData.period.split(" ")[1]}</div>
+                    <div>{courseData.period.split(" ")[2]}</div>
                     </p>
                   </div>
                 </div>

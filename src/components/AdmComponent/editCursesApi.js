@@ -1,18 +1,27 @@
 import infatecFetch from "../../axios/config";
+import { toast } from "react-toastify";
+export const editCourses = async (idCourse, nomeCurso, materia, andar, nomeProfessor) => {
 
-export const editCourses = async (cursoSelecionado, formData) => {
+  const dados = {
+    id: idCourse,
+    name: nomeCurso,
+    period: "string",
+    matter: materia,
+    floor: andar,
+    coordinator: nomeProfessor
+  };
   try {
     const token = sessionStorage.getItem('bearer');
       
-    const response = await infatecFetch.put(`/api/Courses/UpdateCourse/2`, formData, {
+    const response = await infatecFetch.put(`/api/Courses/UpdateCourse`, dados, {
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
       },
     });
-
+    toast.success('curso editado com sucesso')
     return response.data; // Retorne a resposta da requisição, se necessário
   } catch (error) {
+    toast.error('erro ao editar curso')
     console.error(error);
     return []; // Retorne um array vazio em caso de erro
   }

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { getCourses } from "./selectCursesApi";
 //BIBLOTECA DO SELECTBOX
 import Select from 'react-select';
-import { useRef } from 'react';
+
 
 
 //icons
@@ -31,6 +31,9 @@ const FirstComponent = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const [newPasswordOpen, setNewPasswordOpen] = useState(false);
+  //validar se o email é valido para redirecionar em recuperar senha
+  const [validEmail, setValidEmail] = useState(true);
   
   const [courseOptions, setCourseOptions] = useState([]);
 
@@ -55,6 +58,7 @@ const FirstComponent = () => {
     setLoginOpen(!loginOpen);
     setRegisterOpen(false);
     setForgotPasswordOpen(false);
+    setNewPasswordOpen(false)
   };
   //limpa os campos de REGISTRO quando muda pra outro formulário
   const toggleRegister = () => {
@@ -64,16 +68,19 @@ const FirstComponent = () => {
     setPassword("");
     setCpassword("")
     setLoginOpen(false);
-    setRegisterOpen(!registerOpen);
+    setNewPasswordOpen(false)
     setForgotPasswordOpen(false);
+    setRegisterOpen(!registerOpen);
   };
   //limpa os campos de ESQUECEU SENHA quando muda pra outro formulário
   const toggleForgotPassword = () => {
     setEmail("");
     setLoginOpen(false);
     setRegisterOpen(false);
+    setNewPasswordOpen(false)
     setForgotPasswordOpen(!forgotPasswordOpen);
   };
+
 
   //invoca e faz filtro em cursos para SELECT
   useEffect(() => {
@@ -130,8 +137,20 @@ const FirstComponent = () => {
     if (!emailValue.endsWith('@fatec.sp.gov.br')) {
       input.focus();
       toast.error('Digite um e-mail válido @fatec.sp.gov.br')
+      setValidEmail(false)
+    }else{
+      setValidEmail(true)
     }
   }
+
+  const handleSubmitForgotPassword = async (event) => {
+    event.preventDefault();
+  
+    if (validEmail) {
+      // Redirecione para o formulário de nova senha
+      setNewPasswordOpen(true);
+    }
+  };
 
 
   //evento para não deixar clicar em outro input caso a senha esteja incorreta
@@ -169,15 +188,9 @@ const handleCourseSelect = (selectedOptions) => {
 };
 
   
-  
   //GERA ERRO QUANDO CLICADO EM REGISTRO SE ALGO NÃO ESTIVER PREENCHIDO (SENHA COINCIDIREM E CURSO)
  const handleSubmitRegister = async (event) => {
     event.preventDefault();
-
-   
-    
-
-
 
     if (password !== cPassword) {
       toast.error('As senhas não coincidem!');
@@ -223,7 +236,7 @@ const handleCourseSelect = (selectedOptions) => {
         <div className="square" style={{ "--i": 6 }}></div>
         <div className="square" style={{ "--i": 7 }}></div>
 
-        <div className={`wrapper ${loginOpen || registerOpen || forgotPasswordOpen ? 'active' : 'inactive'}`}>
+        <div className={`wrapper ${loginOpen || registerOpen || forgotPasswordOpen || newPasswordOpen ? 'active' : 'inactive'}`}>
           {/**/}
           <div className={`form-box login ${loginOpen ? 'active' : 'inactive'} form-login`}>
             {/*Formulário de LOGIN*/}
@@ -366,11 +379,11 @@ const handleCourseSelect = (selectedOptions) => {
             </form>
           </div>
 
-          <ToastContainer position="bottom-left" />
-
+          
+          {!newPasswordOpen && (
           <div className={`form-box forgot-password ${forgotPasswordOpen ? 'active' : 'inactive'} form-forgotPassword`}>
             {/*Formulário de RECUPERAÇÃO DE SENHA*/}
-            <form id="forgot_password_form">
+            <form id="forgot_password_form" onSubmit={handleSubmitForgotPassword}>
 
               <h2 className="textEsqueceu">Esqueceu sua Senha?</h2>
 
@@ -397,6 +410,65 @@ const handleCourseSelect = (selectedOptions) => {
 
             </form>
           </div>
+          )}
+
+          <div className={`form-box new-password ${newPasswordOpen ? 'active' : 'inactive'} form-newPassword`}>
+            {/*Formulário de RECUPERAÇÃO DE SENHA*/}
+            <form id="new_password_form">
+
+              <h2 className="textEsqueceu">Esqueceu sua Senha?</h2>
+
+              <p>Digite o código e a nova senha.</p>
+
+              {/* CÓDIGO PARA RECUPERAR SENHA */}
+              <div className="input-box">
+                <span className="icon">
+                  <ion-icon name="mail"></ion-icon>
+                </span>
+                <input type="text"
+                 required id="code"
+                  />
+                <label>Código</label>
+              </div>
+
+              {/* NOVA SENHA */}
+              <div className="input-box">
+                <span className="icon">
+                  <IoIosLock />
+                </span>
+                <input
+                  type="password"
+                  required
+                  id="new_password"
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}"
+                  value={password}
+                  onBlur={handlePasswordBlur}
+                  onChange={handlePasswordChange} />
+                <label>Nova senha</label>
+              </div>
+
+              {/* CONFIRMAÇÃO DE SENHA */}
+              <div className="input-box">
+                <span className="icon">
+                  <IoIosLock />
+                </span>
+                <input type="password"
+                  required id="confirm_new_password"
+                  onChange={handlecPasswordChange}
+                  value={cPassword} />
+                <label>Confirmar nova senha</label>
+              </div>
+
+              <button type="submit" className="btn-forgot-password">Redefinir Senha</button>
+
+              <p><p className="back-to-login" 
+                onClick={() => { toggleLogin() }}>Voltar para Login</p> </p>
+
+            </form>
+          </div>
+
+          <ToastContainer position="bottom-left" />
+
         </div>
 
       </div>
