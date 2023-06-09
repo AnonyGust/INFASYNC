@@ -8,6 +8,7 @@ const ProfileMenu = () => {
   const [name, setName] = useState('');
   const [ra, setRA] = useState('');
   const [email, setEmail] = useState('');
+  const [infoEmail, setInfoEmail] = useState('')
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [expanded, setExpanded] = useState(false);
@@ -74,7 +75,7 @@ const ProfileMenu = () => {
                 <h3 className='perfil'><FaUser /> Redefinir senha</h3>
                 <div className="form-field">
                   <label htmlFor="email">Email:</label>
-                  <input type="email" id="email" name="email" onChange={handleInputChange} />
+                  <input type="email" id="email" name="email"/>
                 </div>
                <hr />
                 <div className="form-field">

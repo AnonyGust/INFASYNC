@@ -44,10 +44,6 @@ body{
     filter: contrast(100%);
 }
 
-.infasync{
-
-}
-
 .imgone img{
     filter: invert(100%);
 }
@@ -97,15 +93,8 @@ body{
 
 .card h2 {
     font-size: 2.5vh;
-    text-align: center;
-    border: 2px solid black;
-    background-color: black;
     color: white;
-    height: 6.5vh;
     font-weight: 500;
-    margin: 10px 10px 0 10px;
-    border-radius: 10px;
-    width: 90%;
     text-transform: uppercase;
     text-align: center;
     font-family: 'roboto-medium';
@@ -116,6 +105,13 @@ body{
     align-items: center;
     justify-content: center;
     height: 6.5vh;
+    width: 95%;
+    border: 2px solid black;
+    background-color: black;
+    color: white;
+    margin: 10px 10px 0 10px;
+    border-radius: 10px;
+    
 }
 
 .andar, .curso{
@@ -160,25 +156,27 @@ body{
     margin: 0 0 0 20px;
 }
 
-.horarioInicio{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-   
-}
-
-.horarioInicio p{
-    text-align: center;
-    text-transform: uppercase;
-    color: black;
-}
-
 .cardinfo{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 28vh;
+}
+
+.horarioAll{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    text-transform: uppercase;
+}
+
+.horarioInicio,
+.horarioFinal{
+    font-size: 2.5vh;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .eventandavisos { 
@@ -307,7 +305,7 @@ body{
 
 .textAviso{
     letter-spacing: 2px;
-    width: 80%;
+    width: 50%;
     font-weight: 500;
     color: black;
     height: 29vh;
@@ -325,7 +323,7 @@ body{
 
 .textEvent {
     letter-spacing: 2px;
-    width: 80%;
+    width: 50%;
     font-weight: 500;
     color: black;
     height: 29vh;
@@ -336,13 +334,13 @@ body{
 .imghtml1{
     height: 29vh;
     border: 2px solid black;
-    width: 29vw;
+    width: 50%;
     border-radius: 5px;
 }
 
 .imghtml2{
     height: 29vh;
-    width: 29vw;
+    width: 50%;
     border: 2px solid black;
     border-radius: 5px;
 }
