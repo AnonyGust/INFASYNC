@@ -1,9 +1,9 @@
-import infatecFetch from "../../axios/config";
+import infatecFetch from "../../../axios/config";
 import { toast } from "react-toastify";
-export const editCourses = async (idCourse, nomeCurso, materia, andar, horarioInicio, horarioFinal, nomeProfessor) => {
+export const editCourses = async (selectedCourseId, nomeCurso, materia, andar, horarioInicio, horarioFinal, nomeProfessor) => {
 
   const dados = {
-    id: idCourse,
+    id: selectedCourseId,
     name: nomeCurso,
     period: "string",
     matter: materia,

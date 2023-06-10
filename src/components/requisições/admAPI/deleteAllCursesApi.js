@@ -1,4 +1,4 @@
-import infatecFetch from "../../axios/config";
+import infatecFetch from "../../../axios/config";
 import { toast } from "react-toastify";
 
 export const deleteCourses = async () => {

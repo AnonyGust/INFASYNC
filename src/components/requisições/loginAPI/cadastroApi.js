@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import infatecFetch from '../../axios/config';
+import infatecFetch from '../../../axios/config';
 
 export async function createUser(ra, name, email, password, selectedCourseId) {
     try {

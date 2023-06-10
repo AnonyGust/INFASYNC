@@ -13,22 +13,23 @@ import { IoMdCalendar } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { IoMdSend } from "react-icons/io";
 import {IoIosWarning} from "react-icons/io"
+
 // funções para enviar eventos, avisos e cronogramas
-import { createEvent } from './submitEventsApi';
-import { createWarning } from './submitWarningsApi';
-import { createCourse } from './submitExcelApi';
+import { createEvent } from '../requisições/admAPI/submitEventsApi';
+import { createWarning } from '../requisições/admAPI/submitWarningsApi';
+import { createCourse } from '../requisições/admAPI/submitExcelApi';
 // função para deletar cursos
-import { deleteCourses } from './deleteAllCursesApi';
+import { deleteCourses } from '../requisições/admAPI/deleteAllCursesApi';
 //toastcontainer para sucesso e erro
 import { ToastContainer } from 'react-toastify';
 //pegando os cursos
-import { getCourses } from './getAllCoursesApi';
+import { getCourses } from '../requisições/getAllCoursesApi';
 //react Select
 import Select from 'react-select';
 //userProfile
 import ProfileMenu from './profileMenu/profileMenuAdm';
 
-import { editCourses } from './editCursesApi';
+import { editCourses } from '../requisições/admAPI/editCursesApi';
 
 
 
@@ -101,11 +102,14 @@ const ThirdComponent = () => {
     fetchCourses();
   }, []);  // <-- Empty dependency array to run the effect only once
   
-  //pegando o valor de localstorage
-  const idCourse = localStorage.getItem('selectedCourseId')
-
-
-  getCourses()
+    // Função para armazenar o ID da matéria selecionada no localStorage
+    const handleCourseSelect = (selectedOption) => {
+      if (selectedOption) {
+        const selectedCourseId = selectedOption.value;
+        setSelectedCourseId(selectedCourseId);
+        console.log(selectedCourseId);
+      }
+    };
 
   //abre e fecha eventos modal
   const toggleEventosForm = () => {
@@ -169,7 +173,7 @@ const ThirdComponent = () => {
   };
   //edita o curso Selecionado
   const editarCurso = async () => {
-    editCourses(idCourse ,nomeCurso, materia, andar, horarioInicio, horarioFinal, nomeProfessor)
+    editCourses(selectedCourseId ,nomeCurso, materia, andar, horarioInicio, horarioFinal, nomeProfessor)
   };
   
 
@@ -280,9 +284,9 @@ const ThirdComponent = () => {
           <div className="select">
             <h3>Selecione sua máteria para editar</h3>
           <Select
-              isMulti
+          
               options={options}
-              
+              onChange={handleCourseSelect}
               placeholder="Matéria"
               />
               

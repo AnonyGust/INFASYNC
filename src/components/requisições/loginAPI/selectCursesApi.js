@@ -1,4 +1,4 @@
-import infatecFetch from "../../axios/config";
+import infatecFetch from "../../../axios/config";
 
 export const getCourses = async () => {
     try {

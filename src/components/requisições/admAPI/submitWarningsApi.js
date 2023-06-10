@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
-import infatecFetch from "../../axios/config";
-
+import infatecFetch from "../../../axios/config";
 export const createWarning = async (imageName, message, imageFile) => {
     const formData = new FormData();
   

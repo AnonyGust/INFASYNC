@@ -4,10 +4,10 @@ import "./media.css"
 import logo from './assets/logo.png';
 import infasync from './assets/infasync.png'
 import React, { useState, useEffect } from 'react';
-import { createUser } from "./cadastroApi";
-import { loginUser } from "./loginApi";
+import { createUser } from "../requisições/loginAPI/cadastroApi";
+import { loginUser } from "../requisições/loginAPI/loginApi";
 import { useNavigate } from "react-router-dom";
-import { getCourses } from "./selectCursesApi";
+import { getCourses } from "../requisições/loginAPI/selectCursesApi";
 //BIBLOTECA DO SELECTBOX
 import Select from 'react-select';
 
@@ -23,7 +23,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //validador de senha
-import { validatePassword } from "./validationPassword";
+import { validatePassword } from "../requisições/validationPassword";
+import { sendEmail } from "../requisições/sendEmailApi";
+import { resetPassword } from "../requisições/resetPasswordAPI";
 
 
 const FirstComponent = () => {
@@ -43,6 +45,7 @@ const FirstComponent = () => {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [cPassword, setCpassword] = useState("");
+   const [code, setCode] = useState("")
  
    //atualizará o valor da constante com o valor inserido pelo usuário
    const handleNameChange = (event) => setName(event.target.value);
@@ -145,16 +148,30 @@ const FirstComponent = () => {
 
   const handleSubmitForgotPassword = async (event) => {
     event.preventDefault();
-  
     if (validEmail) {
-      // Redirecione para o formulário de nova senha
-      setNewPasswordOpen(true);
+      try {
+        // Enviar o email
+        await sendEmail(email);
+        // Se o envio do email for bem-sucedido, redirecionar para o formulário de nova senha
+        setNewPasswordOpen(true);
+      } catch (error) {
+        // Lidar com o erro de envio do email
+        console.log('Erro ao enviar o email:', error);
+      }
     }
-  };
+  }
+
+  const handleNewPassword = async (event) => {
+    event.preventDefault();
+    resetPassword(email, password, code);
+    console.log(code)
+  }
 
  //utiliza o navigate para navegar entre as páginas caso haja token
  const navigate = useNavigate();
 
+ //retira o selectedcourseId
+ localStorage.removeItem('selectedCourseId')
  
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
@@ -405,7 +422,7 @@ const handleCourseSelect = (selectedOptions) => {
 
           <div className={`form-box new-password ${newPasswordOpen ? 'active' : 'inactive'} form-newPassword`}>
             {/*Formulário de RECUPERAÇÃO DE SENHA*/}
-            <form id="new_password_form">
+            <form id="new_password_form" onSubmit={handleNewPassword} >
 
               <h2 className="textEsqueceu">Esqueceu sua Senha?</h2>
 
@@ -413,11 +430,10 @@ const handleCourseSelect = (selectedOptions) => {
 
               {/* CÓDIGO PARA RECUPERAR SENHA */}
               <div className="input-box">
-                <span className="icon">
-                  <ion-icon name="mail"></ion-icon>
-                </span>
+              
                 <input type="text"
                  required id="code"
+                 onChange={(e) => setCode(e.target.value)}
                   />
                 <label>Código</label>
               </div>
