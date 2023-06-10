@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getEvents } from "./getEventsApi";
 import { getWarnings } from "./getWarningsApi";
 import { getAllCourses } from "./getCoursesAllApi";
-import moment from 'moment';
 import logo from './assets/logo.png';
 import infasync from './assets/infasync.png'
 import './info.css';
@@ -10,7 +9,6 @@ import './info.css';
 
 const SecondComponent = () => {
   const [visibleIndex, setVisibleIndex] = useState(0);
-  const [products, setProducts] = useState([])
   const [eventData, setEventData] = useState(null);
   const [warningData, setWarningData] = useState(null);
   const [courseData, setCourseData] = useState([]);

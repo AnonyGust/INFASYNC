@@ -7,6 +7,8 @@ export const editCourses = async (idCourse, nomeCurso, materia, andar, nomeProfe
     name: nomeCurso,
     period: "string",
     matter: materia,
+    start: "30/12/1899 12:00",
+    end: "30/12/1899 12:00",
     floor: andar,
     coordinator: nomeProfessor
   };

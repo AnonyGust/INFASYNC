@@ -17,6 +17,7 @@ export const getCourses = async () => {
       }));
       console.log(courses)
       return courses;
+      
     } catch (error) {
       console.error(error);
       return [];

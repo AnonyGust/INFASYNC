@@ -11,8 +11,6 @@ import { getCourses } from "./selectCursesApi";
 //BIBLOTECA DO SELECTBOX
 import Select from 'react-select';
 
-
-
 //icons
 import { IoMdPerson } from "react-icons/io";
 import { IoIosLock } from "react-icons/io";
@@ -24,6 +22,8 @@ import { IoMdMail } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+//validador de senha
+import { validatePassword } from "./validationPassword";
 
 
 const FirstComponent = () => {
@@ -152,28 +152,16 @@ const FirstComponent = () => {
     }
   };
 
-
-  //evento para não deixar clicar em outro input caso a senha esteja incorreta
-  const handlePasswordBlur = (event) => {
-    const inputValue = event.target.value;
-    const pattern = event.target.getAttribute("pattern");
-    const isValid = new RegExp(pattern).test(inputValue);
-    if (!isValid) {
-      toast.error("A senha deve ter pelo menos 8 caracteres, com pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial");
-      event.target.focus();
-    }
-  };
-
-
  //utiliza o navigate para navegar entre as páginas caso haja token
  const navigate = useNavigate();
+
  
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
     
-
+    validatePassword(password)
    //METODO DE LOGIN
-   await loginUser(email, password, navigate);
+   await loginUser( email, password, navigate);
   }
 
   // Função para armazenar o ID da matéria selecionada no localStorage
@@ -196,6 +184,9 @@ const handleCourseSelect = (selectedOptions) => {
       toast.error('As senhas não coincidem!');
       return;
     }
+    //valida a senha
+    validatePassword(password)
+
     // Verifica se o curso foi selecionado
     const selectedCourseId = localStorage.getItem('selectedCourseId');
     if (!selectedCourseId) {
@@ -250,7 +241,7 @@ const handleCourseSelect = (selectedOptions) => {
                   <IoMdMail />
                 </span>
                 <input type="text"
-                  required id="register_email"
+                  required id="email_login"
                   pattern=".+@.+\..+"
                   onChange={handleEmailChange}
                   onBlur={handleEmailBlur}
@@ -277,7 +268,7 @@ const handleCourseSelect = (selectedOptions) => {
 
             </form>
             <div className="footer-login">
-              <p>Ainda não tem uma conta? <p className="go-register" onClick={() => { toggleLogin(); toggleRegister() }}>Crie agora</p></p>
+              <p>Ainda não tem uma conta? <span className="go-register" onClick={() => { toggleLogin(); toggleRegister() }}>Crie agora</span></p>
             </div>
 
           </div>
@@ -290,11 +281,11 @@ const handleCourseSelect = (selectedOptions) => {
 
               {/* SELECT BOX */}
               <div className="select-container">
-                  <h4>Selecione suas matérias</h4>
+                  <h4>Selecione seu Curso</h4>
                   <Select
                   isMulti
                   options={options}
-                  placeholder="Matérias"
+                  placeholder="Cursos"
                   isSearchable={false}// Remover a opção de digitar
                   onChange={handleCourseSelect} 
                   />          
@@ -354,7 +345,7 @@ const handleCourseSelect = (selectedOptions) => {
                   id="register_password"
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}"
                   value={password}
-                  onBlur={handlePasswordBlur}
+                  
                   onChange={handlePasswordChange} />
                 <label>Senha</label>
               </div>
@@ -373,8 +364,8 @@ const handleCourseSelect = (selectedOptions) => {
 
               <button className="btn-registrar" type="submit">Registrar</button>
 
-              <p className="backLogin">Já possuí uma conta? <p className="back-to-login"
-                onClick={() => { toggleRegister(); toggleLogin() }}> Login</p> </p>
+              <p className="backLogin">Já possuí uma conta? <span className="back-to-login"
+                onClick={() => { toggleRegister(); toggleLogin() }}> Login</span> </p>
 
             </form>
           </div>
@@ -405,8 +396,8 @@ const handleCourseSelect = (selectedOptions) => {
 
               <button type="submit" className="btn-forgot-password">Recuperar Senha</button>
 
-              <p><p className="back-to-login" 
-                onClick={() => { toggleLogin() }}>Voltar para Login</p> </p>
+              <p><span className="back-to-login" 
+                onClick={() => { toggleLogin() }}>Voltar para Login</span> </p>
 
             </form>
           </div>
@@ -442,7 +433,7 @@ const handleCourseSelect = (selectedOptions) => {
                   id="new_password"
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}"
                   value={password}
-                  onBlur={handlePasswordBlur}
+                  
                   onChange={handlePasswordChange} />
                 <label>Nova senha</label>
               </div>
@@ -461,8 +452,8 @@ const handleCourseSelect = (selectedOptions) => {
 
               <button type="submit" className="btn-forgot-password">Redefinir Senha</button>
 
-              <p><p className="back-to-login" 
-                onClick={() => { toggleLogin() }}>Voltar para Login</p> </p>
+              <p><span className="back-to-login" 
+                onClick={() => { toggleLogin() }}>Voltar para Login</span></p>
 
             </form>
           </div>

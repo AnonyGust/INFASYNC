@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import infatecFetch from '../../axios/config';
 
-export async function loginUser(email, password, navigate) {
+export async function loginUser( email, password, navigate) {
 
 
   try {
@@ -14,8 +14,10 @@ export async function loginUser(email, password, navigate) {
     };
     const response = await infatecFetch.post('/api/Login/LoginUser', data);
     const token = response.data.bearer; // obter o token a partir da resposta da API
+    const type = response.data.type; // obter o type a partir da resposta da API
     sessionStorage.setItem('bearer', token); // armazenar o token na sessionStorage
     sessionStorage.setItem('email', email); // guarda o email na sessionStorage
+    sessionStorage.setItem('type', type); // guarda o email na sessionStorage
     console.log(sessionStorage)
 
     await toast.promise(

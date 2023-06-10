@@ -64,31 +64,38 @@ const ThirdComponent = () => {
       const courses = await getCourses();
       setCursos(courses);
   
-      // Obter o valor de selectedCourseId do localStorage
       let selectedCourseId = localStorage.getItem('selectedCourseId');
       console.log(selectedCourseId);
   
-      // Verificar se o ID da materia selecionado está presente na lista de cursos
-      let cursoSelecionado = courses.find(curso => curso.Id === parseInt(selectedCourseId));
-      
-      // Se o ID da materia não estiver presente, definir o primeiro curso como selecionado
-      if (!cursoSelecionado && courses.length > 0) {
-        cursoSelecionado = courses[0];
-        selectedCourseId = cursoSelecionado.Id.toString();
-        localStorage.setItem('selectedCourseId', selectedCourseId);
+      let sessionType = sessionStorage.getItem('type');
+      console.log(sessionType);
+  
+      let cursoSelecionado;
+  
+      if (sessionType === '1') {
+        cursoSelecionado = courses.find(curso => curso.Id === parseInt(selectedCourseId));
+  
+        if (!cursoSelecionado && courses.length > 0) {
+          cursoSelecionado = courses[0];
+          selectedCourseId = cursoSelecionado.Id.toString();
+          localStorage.setItem('selectedCourseId', selectedCourseId);
+        }
+      } else if (sessionType === '2') {
+        cursoSelecionado = null;
       }
   
       console.log(cursoSelecionado);
   
-      // Criar as opções com base no curso selecionado
-      const options = cursoSelecionado ? [{ value: cursoSelecionado.Id, label: cursoSelecionado.Curso }] : [];
+      const options = cursoSelecionado
+        ? [{ value: cursoSelecionado.Id, label: cursoSelecionado.Curso }]
+        : courses.map(curso => ({ value: curso.Id, label: curso.Curso }));
   
-      // Definir as opções no estado
       setOptions(options);
     };
   
     fetchCourses();
-  }, []);
+  }, []);  // <-- Empty dependency array to run the effect only once
+  
 
   //pegando o valor de localstorage
   const idCourse = localStorage.getItem('selectedCourseId')
