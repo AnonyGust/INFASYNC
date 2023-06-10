@@ -124,6 +124,10 @@
   border-radius: 5px;
   color: white;
 }
+.profile_form_password{
+  margin-top: 50px;
+}
+
 .profile-form label {
   display: block;
   margin-bottom: 0.5rem;
@@ -193,4 +197,10 @@
 
 .password-toggle svg {
   color: black;
+}
+
+.profile-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
 }

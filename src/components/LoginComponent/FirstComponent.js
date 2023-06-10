@@ -163,6 +163,9 @@ const FirstComponent = () => {
 
   const handleNewPassword = async (event) => {
     event.preventDefault();
+    
+    validatePassword(password)
+
     resetPassword(email, password, code);
     console.log(code)
   }

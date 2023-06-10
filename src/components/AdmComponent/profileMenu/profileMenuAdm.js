@@ -91,7 +91,7 @@ const ProfileMenu = () => {
       </button>
       <TransitionGroup>
         {step === 1 && (
-          <CSSTransition classNames="menu" timeout={300} unmountOnExit nodeRef={formRef}>
+          <CSSTransition classNames="menu" unmountOnExit nodeRef={formRef}>
             <div ref={formRef}>
               <div className="profile-info">
                 <h4>Informações de Perfil</h4>
@@ -125,6 +125,7 @@ const ProfileMenu = () => {
         {step === 2 && (
           <CSSTransition classNames="menu" timeout={300} unmountOnExit nodeRef={formRef}>
             <div ref={formRef}>
+              <div className="profile_form_password">
               <form className="profile-form" onSubmit={handleSubmitResetPassword}>
                <div className="new_password">
 
@@ -189,6 +190,7 @@ const ProfileMenu = () => {
                   Enviar
                 </button>
               </form>
+              </div>
             </div>
           </CSSTransition>
         )}
