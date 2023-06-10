@@ -58,6 +58,9 @@ const ThirdComponent = () => {
   const [cursos, setCursos] = useState([]);
 
   const [options, setOptions] = useState([]);
+
+  const [selectedCourseId, setSelectedCourseId] = useState('');
+
   
   useEffect(() => {
     const fetchCourses = async () => {
@@ -91,17 +94,19 @@ const ThirdComponent = () => {
         : courses.map(curso => ({ value: curso.Id, label: curso.Curso }));
   
       setOptions(options);
+      setSelectedCourseId(selectedCourseId);
+      
     };
   
     fetchCourses();
   }, []);  // <-- Empty dependency array to run the effect only once
   
-
   //pegando o valor de localstorage
   const idCourse = localStorage.getItem('selectedCourseId')
 
+
   getCourses()
-  
+
   //abre e fecha eventos modal
   const toggleEventosForm = () => {
     setShowEventosForm(!showEventosForm);
@@ -164,7 +169,7 @@ const ThirdComponent = () => {
   };
   //edita o curso Selecionado
   const editarCurso = async () => {
-    editCourses(idCourse ,nomeCurso, materia, andar, nomeProfessor)
+    editCourses(idCourse ,nomeCurso, materia, andar, horarioInicio, horarioFinal, nomeProfessor)
   };
   
 
