@@ -6,6 +6,8 @@ import { resetPassword } from '../../requisições/resetPasswordAPI';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { validatePassword } from '../../requisições/validationPassword';
+import { sendEmail } from '../../requisições/sendEmailApi';
+
 
 const ProfileMenu = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +16,10 @@ const ProfileMenu = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [step, setStep] = useState(1);
+  const [passwordResetSuccessful, setPasswordResetSuccessful] = useState(false);
+
+  const [code, setCode] = useState("")
+  const [step, setStep] = useState(0);
   const formRef = useRef(null);
   const navigate = useNavigate();
 
@@ -25,16 +30,31 @@ const ProfileMenu = () => {
     }
   }, []);
 
-  const handleSubmitEmail = (event) => {
-    event.preventDefault();
-    // Verificar se o email é válido ou realizar outras validações necessárias
-    // ...
-
-    // Lógica para enviar o código de verificação para o email
-    // ...
-
-    setStep(2);
+  
+  const handleProfileButtonClick = () => {
+    // Se step for 1, fecha o perfil definindo step como 0
+    // Caso contrário, abre o perfil definindo step como 1
+    setStep(step === 1 ? 0 : 1);
   };
+  
+  const handleSubmitEmail = async (event) => {
+    event.preventDefault();
+    if (email.endsWith('@fatec.sp.gov.br')) {
+      try {
+        // Enviar o email
+        await sendEmail(email);
+        
+        setStep(2);
+      } catch (error) {
+        // Lidar com o erro de envio do email
+        console.log('Erro ao enviar o email:', error);
+      }
+    } else {
+      toast.error('Digite um e-mail válido @fatec.sp.gov.br');
+    }
+  };
+  
+
 
   const handleSubmitResetPassword = async (event) => {
     event.preventDefault();
@@ -47,16 +67,15 @@ const ProfileMenu = () => {
       return;
     }
 
-    if (email !== emailSession) {
-      toast.error('O e-mail fornecido não corresponde ao e-mail da sessão');
-      return;
-    }
-
-    resetPassword(email, password);
+    resetPassword(email, password, code);
+    setPasswordResetSuccessful(true);
+    setStep(0); // Resetar o estado para 0 para fechar ambos os forms
+    // Limpar os campos
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
     console.log(resetPassword);
 
-    // Redirecionar ou exibir uma mensagem de sucesso
-    navigate('/');
   };
 
   const toggleShowPassword = () => {
@@ -83,7 +102,7 @@ const ProfileMenu = () => {
 
   return (
     <div className="profile-menu">
-      <button className="profile-button" onClick={() => setStep(1)}>
+      <button className="profile-button" onClick={handleProfileButtonClick}>
         <FaUser /> Perfil
       </button>
       <button className="exit-button" onClick={handleLogout}>
@@ -122,8 +141,8 @@ const ProfileMenu = () => {
           </CSSTransition>
         )}
 
-        {step === 2 && (
-          <CSSTransition classNames="menu" timeout={300} unmountOnExit nodeRef={formRef}>
+        {step === 2 && !passwordResetSuccessful && (
+          <CSSTransition classNames="menu" unmountOnExit nodeRef={formRef}>
             <div ref={formRef}>
               <div className="profile_form_password">
               <form className="profile-form" onSubmit={handleSubmitResetPassword}>
@@ -135,7 +154,7 @@ const ProfileMenu = () => {
                 
                 <div className="form-field">
                   <label htmlFor="code">Código recebido:</label>
-                  <input type="text" id="code" name="code" />
+                  <input type="text" id="code" name="code" onChange={(e) => setCode(e.target.value)} />
                 </div>
                 <hr />
                 <div className="form-field">

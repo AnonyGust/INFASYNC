@@ -11,7 +11,6 @@ export async function createUser(ra, name, email, password, selectedCourseId) {
         password: password,
         type: 1,
         coursesId: selectedCourseId,
-        cpf: '11111111113',
       };
       console.log(data)
       const response = await infatecFetch.post('/api/Login/CreateUser', data);

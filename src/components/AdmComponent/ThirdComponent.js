@@ -21,7 +21,7 @@ import { createCourse } from '../requisições/admAPI/submitExcelApi';
 // função para deletar cursos
 import { deleteCourses } from '../requisições/admAPI/deleteAllCursesApi';
 //toastcontainer para sucesso e erro
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 //pegando os cursos
 import { getCourses } from '../requisições/getAllCoursesApi';
 //react Select
@@ -60,9 +60,17 @@ const ThirdComponent = () => {
 
   const [options, setOptions] = useState([]);
 
-  const [selectedCourseId, setSelectedCourseId] = useState('');
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
 
+
+  const [tipo, setTipo] = useState('');
+
+  useEffect(() => {
+    const tipoArmazenado = sessionStorage.getItem('type');
+    setTipo(tipoArmazenado);
+  }, []);
   
+  //controla os cursos que devem ser exibidos e guarda o valor selecionado
   useEffect(() => {
     const fetchCourses = async () => {
       const courses = await getCourses();
@@ -95,7 +103,7 @@ const ThirdComponent = () => {
         : courses.map(curso => ({ value: curso.Id, label: curso.Curso }));
   
       setOptions(options);
-      setSelectedCourseId(selectedCourseId);
+      
       
     };
   
@@ -173,6 +181,12 @@ const ThirdComponent = () => {
   };
   //edita o curso Selecionado
   const editarCurso = async () => {
+
+    if (!selectedCourseId) {
+      // Mostrar um aviso para selecionar um curso
+      toast.error("selecione um curso!")
+      return;
+    }
     editCourses(selectedCourseId ,nomeCurso, materia, andar, horarioInicio, horarioFinal, nomeProfessor)
   };
   
@@ -194,9 +208,9 @@ const ThirdComponent = () => {
         <ProfileMenu />
         <div className="center">
           <IoIosSchool className='eventos-icon' />
-          <button id="eventos" onClick={toggleEventosForm}>Enviar Evento</button>
+          <button id="eventos" disabled={tipo === '1'} className={tipo === '1' ? 'disabled-button' : ''} onClick={toggleEventosForm}>Enviar Evento</button>
           <IoMdAlert className="avisos-icon" />
-          <button id="avisos" onClick={toggleAvisosForm}>Enviar Aviso</button>
+          <button id="avisos" disabled={tipo === '1'} onClick={toggleAvisosForm}>Enviar Aviso</button>
           <IoMdCalendar className="cronogramas-icon" />
           <button id="cronogramas" onClick={toggleCronogramasForm}>Cronogramas</button>
         </div>
@@ -397,10 +411,10 @@ const ThirdComponent = () => {
             <div className="sendCurses">
             <input type="file" id="excel" name="excel" onChange={handlerExcel} />
             <div className="sendButtons">
-            <button id="btnExcel" onClick={sendExcel}>
+            <button id="btnExcel" disabled={tipo === '1'} onClick={sendExcel}>
             <IoMdSend /> Enviar todos Cronogramas
           </button>
-          <button id="btnDeleteCurses" onClick={deleteAllCurses}>
+          <button id="btnDeleteCurses" disabled={tipo === '1'} onClick={deleteAllCurses}>
             <IoMdSend /> Deletar todos cronogramas
           </button>
           </div>

@@ -39,6 +39,8 @@ const FirstComponent = () => {
   
   const [courseOptions, setCourseOptions] = useState([]);
 
+  const [selectedCourseId, setSelectedCourseId] = useState('');
+
    //constantes para guardar e setar valores nas constantes
    const [name, setName] = useState("");
    const [ra, setRa] = useState("");
@@ -165,8 +167,22 @@ const FirstComponent = () => {
     event.preventDefault();
     
     validatePassword(password)
-
-    resetPassword(email, password, code);
+    if (password !== cPassword) {
+      toast.error('As senhas não coincidem!');
+      return;
+    }
+    try {
+      await resetPassword(email, password, code);
+      setLoginOpen(true);
+      setNewPasswordOpen(false);
+      setForgotPasswordOpen(false);
+      console.log(code);
+      // Redirect code here (replace the console.log with the redirection logic)
+    } catch (error) {
+      // Handle any errors that occurred during password reset
+      console.error(error);
+    }
+    
     console.log(code)
   }
 
@@ -184,16 +200,14 @@ const FirstComponent = () => {
    await loginUser( email, password, navigate);
   }
 
-  // Função para armazenar o ID da matéria selecionada no localStorage
-const handleCourseSelect = (selectedOptions) => {
-  if (selectedOptions && selectedOptions.length > 0) {
-    const selectedCourseId = selectedOptions[0].value;
-    console.log(selectedCourseId)
-    localStorage.setItem('selectedCourseId', selectedCourseId);
-  } else {
-    toast.error("não foi possível obter a materia")
-  }
-};
+    //função para guardar a opção de curso selecionado
+    const handleCourseSelect = (selectedOption) => {
+      if (selectedOption) {
+        const selectedCourseId = selectedOption.value;
+        setSelectedCourseId(selectedCourseId);
+        console.log(selectedCourseId);
+      }
+    };
 
   
   //GERA ERRO QUANDO CLICADO EM REGISTRO SE ALGO NÃO ESTIVER PREENCHIDO (SENHA COINCIDIREM E CURSO)
@@ -207,12 +221,11 @@ const handleCourseSelect = (selectedOptions) => {
     //valida a senha
     validatePassword(password)
 
-    // Verifica se o curso foi selecionado
-    const selectedCourseId = localStorage.getItem('selectedCourseId');
     if (!selectedCourseId) {
-    toast.error('Selecione um curso!');
-    return;
-  }
+      toast.error('Selecione um curso!');
+      return;
+    }
+
    //METODO DE CADASTRO
     await createUser(ra, name, email, password, selectedCourseId);
   };
@@ -303,7 +316,6 @@ const handleCourseSelect = (selectedOptions) => {
               <div className="select-container">
                   <h4>Selecione seu Curso</h4>
                   <Select
-                  isMulti
                   options={options}
                   placeholder="Cursos"
                   isSearchable={false}// Remover a opção de digitar
